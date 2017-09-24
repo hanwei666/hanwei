@@ -1,0 +1,300 @@
+mysql 
+
+设置密码
+mysqladmin -uroot -p123 password123.com
+mysqladmin -uroot password123.com
+
+grant select,insert,update,drop,delete on *.* to test@192.168.1.81 identified by '123.com';
+
+查看表
+show tables;
+
+查看排序
+mysql> select * from student order by stu_id;
++--------+-------+-----+---------------+
+| stu_id | name  | age | pegister_date |
++--------+-------+-----+---------------+
+|      1 | zhang |  22 | 2017-09-21    |
+|      2 | li    |  22 | 2017-09-21    |
++--------+-------+-----+---------------+
+
+查看反响排序
+mysql> select * from student order by stu_id desc;
++--------+-------+-----+---------------+
+| stu_id | name  | age | pegister_date |
++--------+-------+-----+---------------+
+|      2 | li    |  22 | 2017-09-21    |
+|      1 | zhang |  22 | 2017-09-21    |
++--------+-------+-----+---------------+
+
+
+查看变结构
+desc mysql；
+show create table student;
+
+查看表
+select * from mysql.user limit 3;
+select * from mysql.user limit 3\G
+
+创建数据库
+create database python charset utf8;
+
+
+插入
+mysql> insert into student2(name,age,register_date) values (
+    -> 'han',22,'2017-09-20');
+更新
+update abc set name = 'windows' where id =2;
+
+删除
+delete from abc where id=22;
+
+like
+select * from abc where name like "a%"; 
+	
+主键
+mysql> create table student2( 
+    -> stu_id int not null auto_increment, 
+    -> name char(10), 
+    -> age int not null, 
+    -> register_date date, 
+    -> primary key (stu_id) 
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc student;
++---------------+---------+------+-----+---------+-------+
+| Field         | Type    | Null | Key | Default | Extra |
++---------------+---------+------+-----+---------+-------+
+| stu_id        | int(11) | NO   | PRI | NULL    |       |
+| age           | int(11) | NO   |     | NULL    |       |
+| register_date | date    | YES  |     | NULL    |       |
++---------------+---------+------+-----+---------+-------+
+实例解析：
+
+如果你不想字段为 NULL 可以设置字段的属性为 NOT NULL， 在操作数据库时如果输入该字段的数据为NULL ，就会报错。
+AUTO_INCREMENT定义列为自增的属性，一般用于主键，数值会自动加1。
+PRIMARY KEY关键字用于定义列为主键。 您可以使用多列来定义主键，列间以逗号分隔。
+
+
+外键
+mysql> create table `abc` (
+    -> `id` int(11) not null,
+    -> `name` char(16) not null,
+    -> `class_id` int(11) not null,
+    -> primary key (`id`),
+    -> key `fk_class_key` (`class_id`),
+    -> constraint `fk_class_key` foreign key (`class_id`) references `class` (`id`));
+Query OK, 0 rows affected (0.02 sec)
+
+abc 的class_id 关联到 class 的id ,class变被abc关联到 如果class 删除id报错，测需要先删除abc的class_id
+
+mysql> insert into class(id,name) values(11,"ux");
+Query OK, 1 row affected (0.00 sec)
+
+
+mysql> insert into abc (id,name,class_id) values(22,'alex', 11);
+Query OK, 1 row affected (0.00 sec)
+
+
+mysql> select * from abc;
++----+------+----------+
+| id | name | class_id |
++----+------+----------+
+|  1 | alex |        1 |
+|  2 | linu |        0 |
+|  3 | linu |        0 |
+|  6 | san  |        0 |
+|  9 | alex |        9 |
+| 22 | alex |       11 |
++----+------+----------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+
+	
+mysql> select * from student2;
++--------+------+-----+---------------+
+| stu_id | name | age | register_date |
++--------+------+-----+---------------+
+|      1 | han  |  22 | 2017-09-20    |
+|      2 | han  |  22 | 2017-09-20    |
++--------+------+-----+---------------+
+2 rows in set (0.00 sec)
+
+
+分组(group,sum(求和)
+mysql> select name,sum(age) from student group by name with rollup;
++-------+----------+
+| name  | sum(age) |
++-------+----------+
+| li    |       22 |
+| zhang |       22 |
+| NULL  |       44 |
++-------+----------+
+
+计算总数(count)
+mysql> select name,count(*) from student group by name;
++-------+----------+
+| name  | count(*) |
++-------+----------+
+| li    |        1 |
+| zhang |        1 |
++-------+----------+
+
+alter
+
+modify
+alter table abc modify name char(10); 修改为10 
+alter table abc modify bbq bigint not null default 200; 修改默认值
+
+bigint
+alter table abc change id iid bigint; 修改字段名
+alter table abc change name name int; 修改字段表类型
+
+add
+alter table abc add bbq int not null default 100; 添加字段设置默认值
+
+drop 
+alter table aaa drop  bbq; 删除字段
+
+
+MySQL NULL 值处理
+　
+我们已经知道MySQL使用 SQL SELECT 命令及 WHERE 子句来读取数据表中的数据,但是当提供的查询条件字段为 NULL 时，该命令可能就无法正常工作。
+为了处理这种情况，MySQL提供了三大运算符:
+IS NULL: 当列的值是NULL,此运算符返回true。
+IS NOT NULL: 当列的值不为NULL, 运算符返回true。
+<=>: 比较操作符（不同于=运算符），当比较的的两个值为NULL时返回true。
+关于 NULL 的条件比较运算是比较特殊的。你不能使用 = NULL 或 != NULL 在列中查找 NULL 值 。
+在MySQL中，NULL值与任何其它值的比较（即使是NULL）永远返回false，即 NULL = NULL 返回false 。
+MySQL中处理NULL使用IS NULL和IS NOT NULL运算符。
+
+集合
+create table A (a int not null);
+create table B (b int not null);
+
+inner join(交集)
+select * from A inner join B on A.a = B.b; 
+select A.*,B.* from A,B where A.a = B.b;
+
+left join(差集)
+mysql> select * from A left join B on A.a = B.b;
++-----+------+
+| a   | b    |
++-----+------+
+|   1 |    1 |
+|   2 |    2 |
+|   3 |    3 |
+| 100 | NULL |
+| 200 | NULL |
++-----+------+
+mysql> select * from A right join B on A.a = B.b;
++------+---+
+| a    | b |
++------+---+
+|    3 | 3 |
+|    1 | 1 |
+|    2 | 2 |
+| NULL | 5 |
+| NULL | 9 |
+| NULL | 8 |
++------+---+
+6 rows in set (0.00 sec)
+
+
+并集
+mysql> select * from A left join B on A.a = B.b union select * from A right join B on A.a = B.b;
++------+------+
+| a    | b    |
++------+------+
+|    1 |    1 |
+|    2 |    2 |
+|    3 |    3 |
+|  100 | NULL |
+|  200 | NULL |
+| NULL |    5 |
+| NULL |    9 |
+| NULL |    8 |
++------+------+
+
+mysql事务
+
+1、事务的原子性：一组事务，要么成功；要么撤回。
+2、稳定性 ： 有非法数据（外键约束之类），事务撤回。
+3、隔离性：事务独立运行。一个事务处理后的结果，影响了其他事务，那么其他事务会撤回。事务的100%隔离，需要牺牲速度。
+4、可靠性：软、硬件崩溃后，InnoDB数据表驱动会利用日志文件重构修改。可靠性和高速度不可兼得， innodb_flush_log_at_trx_commit选项 决定什么时候吧事务保存到日志里。
+
+
+在Mysql控制台使用事务来操作
+
+mysql> begin； ＃开始一个事务
+ 
+mysql> insert into a (a) values(555);
+ 
+mysql>rollback; 回滚 ， 这样数据是不会写入的
+当然如果上面的数据没问题，就输入commit提交命令就行；
+
+mysql索引
+MySQL索引的建立对于MySQL的高效运行是很重要的，索引可以大大提高MySQL的检索速度。
+
+打个比方，如果合理的设计且使用索引的MySQL是一辆兰博基尼的话，那么没有设计和使用索引的MySQL就是一个人力三轮车。
+
+索引分单列索引和组合索引。单列索引，即一个索引只包含单个列，一个表可以有多个单列索引，但这不是组合索引。组合索引，即一个索包含多个列。
+
+创建索引时，你需要确保该索引是应用在 SQL 查询语句的条件(一般作为 WHERE 子句的条件)。 
+
+实际上，索引也是一张表，该表保存了主键与索引字段，并指向实体表的记录。
+
+上面都在说使用索引的好处，但过多的使用索引将会造成滥用。因此索引也会有它的缺点：虽然索引大大提高了查询速度，同时却会降低更新表的速度，如对表进行INSERT、UPDATE和DELETE。因为更新表时，MySQL不仅要保存数据，还要保存一下索引文件。建立索引会占用磁盘空间的索引文件。
+
+
+普通索引
+创建索引
+create index index_name on A (a(32);
+主键也是一种索引
+CREATE INDEX indexName ON mytable(username(length));  
+如果是CHAR，VARCHAR类型，length可以小于字段实际长度；如果是BLOB和TEXT类型，必须指定 length。
+
+创建表的时候直接指定
+
+CREATE TABLE mytable( 
+  
+ID INT NOT NULL,  
+  
+username VARCHAR(16) NOT NULL, 
+  
+INDEX [indexName] (username(length)) 
+  
+); 
+
+删除索引的语法
+DROP INDEX [indexName] ON mytable;
+
+查看索引
+mysql> show index from test2;
++-------+------------+-----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+
+| Table | Non_unique | Key_name  | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment |
++-------+------------+-----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+
+| test2 |          0 | test_name |            1 | name        | A         |        NULL |     NULL | NULL   | YES  | BTREE      |         |
++-------+------------+-----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+
+1 row in set (0.00 sec)
+
+唯一索引
+它与前面的普通索引类似，不同的就是：索引列的值必须唯一，但允许有空值。如果是组合索引，则列值的组合必须唯一。它有以下几种创建方式：
+
+create unique index test_name on test2(name(32);
+
+创建表的时候直接指定
+CREATE TABLE mytable( 
+  
+ID INT NOT NULL,  
+  
+username VARCHAR(16) NOT NULL, 
+  
+UNIQUE [indexName] (username(length)) 
+  
+); 
