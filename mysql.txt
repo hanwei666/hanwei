@@ -439,3 +439,142 @@ session.add(user_obj2)
 
 print(user_obj.name,user_obj.id)
 session.commit()                             #提交
+
+链表查询
+#!/usr/bin/env python
+# _*_ encoding:utf-8 _*_
+__author__ = 'han'
+import pymysql
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column,Integer,String
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import ForeignKey
+
+engine = create_engine('mysql+pymysql://test:123.com@192.168.1.82/python',
+                       encoding='utf-8',echo=True)
+
+base = declarative_base()
+
+class studyrecord(base):
+    __tablename__ = 'study_record'
+    id = Column(Integer,primary_key=True)
+    day = Column(Integer,nullable=False)
+    status = Column(String(32), nullable=False)
+    stu_id = Column(Integer, nullable=False)
+
+    def __repr__(self):
+        return "<%s name:%s>" % (self.id, self.day)
+
+class Student(base):
+    __tablename__ = 'student'
+    id = Column(Integer,primary_key=True)
+    name = Column(String(32),nullable=False)
+    register_date = Column(nullable=False)
+
+
+    def __repr__(self):
+        return "<%s name:%s>" % (self.id, self.name)
+		
+session_class = sessionmaker(bind=engine)
+session = session_class()
+print(session.query(studyrecord,Student).filter(studyrecord.id==Student.id).all())
+
+
+创建表并且关联其他表
+#!/usr/bin/env python
+# _*_ encoding:utf-8 _*_
+__author__ = 'han'
+import pymysql
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column,Integer,String
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import func
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+
+engine = create_engine('mysql+pymysql://test:123.com @192.168.1.82/python',
+                       encoding='utf-8')
+
+base = declarative_base()
+
+class Student(base):
+    __tablename__ = "student"
+    id = Column(Integer,primary_key=True)
+    name = Column(String(32),nullable=False)
+    register_date = Column(Integer,nullable=False)
+
+    def __repr__(self):
+        return "<%s name:%s>" % (self.id ,self.name )
+
+class studyrecord(base):
+    __tablename__ = 'study_record'
+    id = Column(Integer,primary_key=True)
+    day = Column(Integer,nullable=False)
+    status = Column(String(32),nullable=False)
+    stu_id = Column(Integer,ForeignKey("student.id "))
+    #student = relationship('Student',backref='my')
+
+    def __repr__(self):
+        return "<%s day:%s status:%s>" % (self.student.name,self.day,self.status)
+
+base.metadata.create_all(engine)
+
+##添加数据
+#!/usr/bin/env python
+# _*_ encoding:utf-8 _*_
+__author__ = 'han'
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column,Integer,String
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import ForeignKey
+
+engine = create_engine('mysql+pymysql://test:123.com@192.168.1.82/python',
+                       encoding='utf-8',echo=True)
+
+base = declarative_base()
+
+class studyrecord(base):
+    __tablename__ = 'study_record'
+    id = Column(Integer,primary_key=True)
+    day = Column(Integer,nullable=False)
+    status = Column(String(32), nullable=False)
+    stu_id = Column(Integer, nullable=False)
+
+    def __repr__(self):
+        return "<%s name:%s>" % (self.id, self.day)
+
+class Student(base):
+    __tablename__ = 'student'
+    id = Column(Integer,primary_key=True)
+    name = Column(String(32),nullable=False)
+    register_date = Column(nullable=False)
+
+
+    def __repr__(self):
+        return "<%s name:%s>" % (self.id, self.name)
+
+s1 = Student(name='alex',register_date='201170926')
+s2 = Student(name='jack',register_date='201170926')
+s3 = Student(name='rain',register_date='201170926')
+s4 = Student(name='reic',register_date='201170926')
+
+t1 = studyrecord(day=1,status='YES',stu_id=1)
+t2 = studyrecord(day=2,status='NO',stu_id=1)
+t3 = studyrecord(day=3,status='YES',stu_id=1)
+t4 = studyrecord(day=1,status='YES',stu_id=2)
+
+session_class = sessionmaker(bind=engine)
+session = session_class()
+
+
+
+session.add_all([s1,s2,s3,s4,t1,t2,t3,t4])
+
+session.commit()                             
+
