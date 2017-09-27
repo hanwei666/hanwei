@@ -584,7 +584,13 @@ session = session_class()
 print(session.query(studyrecord,Student).filter(studyrecord.id==Student.id).all())
 
 
-创建表并且关联其他表
+
+
+创建外键
+
+mysql必须源码 mysql5.62.7
+GRANT all privileges on *.* to 'max'@'192.168.1.135' IDENTIFIED BY 'maxkim' WITH GRANT OPTION;
+
 #!/usr/bin/env python
 # _*_ encoding:utf-8 _*_
 __author__ = 'han'
@@ -598,7 +604,7 @@ from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
-engine = create_engine('mysql+pymysql://test:123.com @192.168.1.82/python',
+engine = create_engine('mysql+pymysql://max:maxkim@192.168.1.81/test',
                        encoding='utf-8')
 
 base = declarative_base()
@@ -609,21 +615,19 @@ class Student(base):
     name = Column(String(32),nullable=False)
     register_date = Column(Integer,nullable=False)
 
-    def __repr__(self):
-        return "<%s name:%s>" % (self.id ,self.name )
+
 
 class studyrecord(base):
     __tablename__ = 'study_record'
     id = Column(Integer,primary_key=True)
     day = Column(Integer,nullable=False)
     status = Column(String(32),nullable=False)
-    stu_id = Column(Integer,ForeignKey("student.id "))
-    #student = relationship('Student',backref='my')
+    stu_id = Column(Integer,ForeignKey("student.id"))  #关联student表
+    student = relationship('Student',backref='my')    通过student可以查student表所有数据，而student表可以通过my查studyrecord表所有数据 
 
-    def __repr__(self):
-        return "<%s day:%s status:%s>" % (self.student.name,self.day,self.status)
 
 base.metadata.create_all(engine)
+
 
 ##添加数据
 #!/usr/bin/env python
@@ -636,8 +640,8 @@ from sqlalchemy import Column,Integer,String
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import ForeignKey
 
-engine = create_engine('mysql+pymysql://test:123.com@192.168.1.82/python',
-                       encoding='utf-8',echo=True)
+engine = create_engine('mysql+pymysql://max:maxkim@192.168.1.81/test',
+                       encoding='utf-8')
 
 base = declarative_base()
 
@@ -649,7 +653,7 @@ class studyrecord(base):
     stu_id = Column(Integer, nullable=False)
 
     def __repr__(self):
-        return "<%s name:%s>" % (self.id, self.day)
+        return "<%s day:%s status:%s>" % (self.student.name,self.day,self.status)
 
 class Student(base):
     __tablename__ = 'student'
@@ -657,9 +661,11 @@ class Student(base):
     name = Column(String(32),nullable=False)
     register_date = Column(nullable=False)
 
-
     def __repr__(self):
-        return "<%s name:%s>" % (self.id, self.name)
+        return "<%s name:%s>" % (self.id ,self.name )
+
+
+
 
 s1 = Student(name='alex',register_date='201170926')
 s2 = Student(name='jack',register_date='201170926')
@@ -675,7 +681,52 @@ session_class = sessionmaker(bind=engine)
 session = session_class()
 
 
-
 session.add_all([s1,s2,s3,s4,t1,t2,t3,t4])
 
-session.commit()                             
+session.commit()
+
+查看
+
+#!/usr/bin/env python
+# _*_ encoding:utf-8 _*_
+__author__ = 'han'
+import pymysql
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column,Integer,String
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import func
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+
+engine = create_engine('mysql+pymysql://max:maxkim@192.168.1.81/test',
+                       encoding='utf-8')
+
+base = declarative_base()
+
+class Student(base):
+    __tablename__ = "student"
+    id = Column(Integer,primary_key=True)
+    name = Column(String(32),nullable=False)
+    register_date = Column(Integer,nullable=False)
+
+    def __repr__(self):
+        return "<%s name:%s>" % (self.id ,self.name )    #显示格式
+
+class studyrecord(base):
+    __tablename__ = 'study_record'
+    id = Column(Integer,primary_key=True)
+    day = Column(Integer,nullable=False)
+    status = Column(String(32),nullable=False)
+    stu_id = Column(Integer,ForeignKey("student.id"))
+    student = relationship('Student',backref='my')
+
+    def __repr__(self):
+        return "<%s day:%s status:%s>" % (self.student.name,self.day,self.status)         #显示格式
+
+session_class = sessionmaker(bind=engine)
+session = session_class()
+
+stu_obj = session.query(Student).filter(Student.name=='alex').first()
+print(stu_obj.my) #两个查询到的结果
