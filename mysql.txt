@@ -774,4 +774,101 @@ class Address(base):
 
 base.metadata.create_all(engine)     #创建
 
+#############################
+#!/usr/bin/env python
+# _*_ encoding:utf-8 _*_
+__author__ = 'han'
+
+import pymysql
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column,Integer,String
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import func
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+
+engine = create_engine('mysql+pymysql://max:maxkim@192.168.1.81/test',
+                       encoding='utf-8')
+base = declarative_base()
+
+class Customer(base):
+    __tablename__ = 'customer'
+    id = Column(Integer,primary_key=True)
+    name = Column(String(64))
+
+    billing_address_id = Column(Integer,ForeignKey('address.id'))  #关联
+    shipping_address_id = Column(Integer,ForeignKey('address.id')) #关联
+
+    billing_address = relationship('Address',foreign_keys=[billing_address_id]) #添加
+    shipping_address = relationship('Address',foreign_keys=[shipping_address_id])
+
+class Address(base):
+    __tablename__ = 'address'
+    id = Column(Integer,primary_key=True)
+    street = Column(String(64))
+    city = Column(String(64))
+    state = Column(String(64))
+
+
+base.metadata.create_all(engine)     #创建
+
+
+########
+#!/usr/bin/env python
+# _*_ encoding:utf-8 _*_
+
+__author__ = 'han'
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column,Integer,String
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import ForeignKey
+
+engine = create_engine('mysql+pymysql://max:maxkim@192.168.1.81/test',
+                       encoding='utf-8')
+
+base = declarative_base()
+
+class Customer(base):
+    __tablename__ = 'customer'
+    id = Column(Integer,primary_key=True)
+    name = Column(String(64))
+    billing_address_id = (Integer,ForeignKey("address.id"))
+    shipping_address_id = (Integer,ForeignKey("address.id"))
+
+class Address(base):
+    __tablename__ = 'address'
+    id = Column(Integer, primary_key=True)
+    street = Column(String(64))
+    city = Column(String(64))
+    state = Column(String(64))
+
+
+
+############
+
+#!/usr/bin/env python
+# _*_ encoding:utf-8 _*_
+__author__ = 'han'
+
+from day2 import monitor
+from sqlalchemy.orm import sessionmaker
+
+session_class = sessionmaker(bind=monitor.engine)
+session = session_class()   #生成session实例
+
+addr1 = monitor.Address(street="Tiantongyuan", city="Changping", state="BJ")
+addr2 = monitor.Address(street="Wudaokou", city="Haidian", state="BJ")
+addr3 = monitor.Address(street="Yanjiao",city="LangFang", state="HB")
+
+session.add_all([addr1,addr2,addr3])
+c1 = monitor.Customer(name="Alex", billing_address_id=addr2.id, shipping_address_id=addr1.id)
+c2 = monitor.Customer(name="Jack", billing_address_id=addr3.id, shipping_address_id=addr3.id)
+
+session.add_all([c1,c2])
+
+session.commit()
 
