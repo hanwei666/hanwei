@@ -735,6 +735,7 @@ print(stu_obj.my) #两个查询到的结果
 
 多外键关联
 
+##创建关联
 #!/usr/bin/env python
 # _*_ encoding:utf-8 _*_
 __author__ = 'han'
@@ -748,7 +749,7 @@ from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
-engine = create_engine('mysql+pymysql://test:123.com@192.168.80.11/test',
+engine = create_engine('mysql+pymysql://test:123.com@192.168.80.11/abc',
                        encoding='utf-8')
 
 base = declarative_base()
@@ -774,60 +775,20 @@ class Address(base):
 
 base.metadata.create_all(engine)     #创建
 
-#############################
-#!/usr/bin/env python
+###插入数据
+!/usr/bin/env python
 # _*_ encoding:utf-8 _*_
-__author__ = 'han'
 
-import pymysql
+__author__ = 'han'
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column,Integer,String
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import func
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
-engine = create_engine('mysql+pymysql://max:maxkim@192.168.1.81/test',
-                       encoding='utf-8')
-base = declarative_base()
-
-class Customer(base):
-    __tablename__ = 'customer'
-    id = Column(Integer,primary_key=True)
-    name = Column(String(64))
-
-    billing_address_id = Column(Integer,ForeignKey('address.id'))  #关联
-    shipping_address_id = Column(Integer,ForeignKey('address.id')) #关联
-
-    billing_address = relationship('Address',foreign_keys=[billing_address_id]) #添加
-    shipping_address = relationship('Address',foreign_keys=[shipping_address_id])
-
-class Address(base):
-    __tablename__ = 'address'
-    id = Column(Integer,primary_key=True)
-    street = Column(String(64))
-    city = Column(String(64))
-    state = Column(String(64))
-
-
-base.metadata.create_all(engine)     #创建
-
-
-########
-#!/usr/bin/env python
-# _*_ encoding:utf-8 _*_
-
-__author__ = 'han'
-import sqlalchemy
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column,Integer,String
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import ForeignKey
-
-engine = create_engine('mysql+pymysql://max:maxkim@192.168.1.81/test',
+engine = create_engine('mysql+pymysql://test:123.com@192.168.80.11/abc',
                        encoding='utf-8')
 
 base = declarative_base()
@@ -836,8 +797,9 @@ class Customer(base):
     __tablename__ = 'customer'
     id = Column(Integer,primary_key=True)
     name = Column(String(64))
-    billing_address_id = (Integer,ForeignKey("address.id"))
-    shipping_address_id = (Integer,ForeignKey("address.id"))
+    billing_address_id = Column(Integer,ForeignKey("address.id"))
+    shipping_address_id = Column(Integer,ForeignKey("address.id"))
+
 
 class Address(base):
     __tablename__ = 'address'
@@ -846,29 +808,113 @@ class Address(base):
     city = Column(String(64))
     state = Column(String(64))
 
+    def __repr__(self):
+        return self.street
+		
+####
+#!/usr/bin/env python
+# _*_ encoding:utf-8 _*_
+__author__ = 'han'
+
+from day3 import test2
+from sqlalchemy.orm import sessionmaker
+
+session_class = sessionmaker(bind=test2.engine)
+session = session_class()   #生成session实例
+
+# addr1 = test2.Address(street="Tiantongyuan", city="Changping", state="BJ")
+# addr2 = test2.Address(street="Wudaokou", city="Haidian", state="BJ")
+# addr3 = test2.Address(street="Yanjiao",city="LangFang", state="HB")
+#
+# session.add_all([addr1,addr2,addr3])
+# c1 = test2.Customer(billing_address_id=addr2.id,shipping_address_id=addr2.id,name="Alex")   # 添加数据
+# c2 = test2.Customer(billing_address_id=addr3.id,shipping_address_id=addr3.id,name="Jack",)
+#
+# session.add_all([c1,c2])
 
 
-############
+obj = session.query(test2.Customer).filter(test2.Customer.name =="alex").first()   #查看
+print(obj.name,obj.billing_address_id,obj.shipping_address_id)
+
+session.commit()
+
+多对多关联
 
 #!/usr/bin/env python
 # _*_ encoding:utf-8 _*_
 __author__ = 'han'
 
-from day2 import monitor
+from sqlalchemy import Table,Column,Integer,String,DATE,ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-session_class = sessionmaker(bind=monitor.engine)
-session = session_class()   #生成session实例
+engine = create_engine('mysql+pymysql://test:123.com@192.168.80.11/abc',
+                       encoding='utf-8')
 
-addr1 = monitor.Address(street="Tiantongyuan", city="Changping", state="BJ")
-addr2 = monitor.Address(street="Wudaokou", city="Haidian", state="BJ")
-addr3 = monitor.Address(street="Yanjiao",city="LangFang", state="HB")
+Base = declarative_base()
 
-session.add_all([addr1,addr2,addr3])
-c1 = monitor.Customer(name="Alex", billing_address_id=addr2.id, shipping_address_id=addr1.id)
-c2 = monitor.Customer(name="Jack", billing_address_id=addr3.id, shipping_address_id=addr3.id)
+book_m2m_author = Table('book_m2m_author',Base.metadata,
+                        Column('book_id',Integer,ForeignKey('books.id')),
+                        Column('author_id',Integer,ForeignKey('authors.id')),
+                        )
 
-session.add_all([c1,c2])
+class Book(Base):
+    __tablename__ = 'books'
+    id = Column(Integer,primary_key=True)
+    name = Column(String(64))
+    pub_date = Column(DATE)
+    authors = relationship('Author',secondary=book_m2m_author,backref='books')  #通过Author可以查authors和book_m2m_author ，authors和book_m2m_author通过books查books
+
+    def __repr__(self):
+        return self.name
+
+class Author(Base):
+    __tablename__ = 'authors'
+    id = Column(Integer,primary_key=True)
+    name = Column(String(32))
+
+    def __reor__(self):
+        return self.name
+
+Base.metadata.create_all(engine)     #创建
+
+
+插入数据和查看
+#!/usr/bin/env python
+# _*_ encoding:utf-8 _*_
+__author__ = 'han'
+
+from day3 import test
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+engine = create_engine('mysql+pymysql://test:123.com@192.168.80.11/abc',
+                       encoding='utf-8')
+
+
+session_class = sessionmaker(bind=test.engine)
+session = session_class()
+
+# b1 = test.Book(name="learn python with Alex",pub_date="2017-09-29")
+# b2 = test.Book(name="learn Zhuangbility with Alex",pub_date="2017-09-29")
+# b3 = test.Book(name="learn hook up girls with Alex",pub_date="2017-09-29")
+#
+# a1 = test.Author(name='Alex')
+# a2 = test.Author(name='Jack')
+# a3 = test.Author(name='Abc')
+#
+# b1.authors = [a1,a3]    #添加关联
+# b2.authors = [a1,a2,a3] #添加关联
+#
+# session.add_all([b1,b2,b3,a1,a2,a3])
+
+
+###查看数据
+author_obj = session.query(test.Author).filter(test.Author.name=='alex').first()
+# print(author_obj.books[1].pub_date)
+book_obj = session.query(test.Book).filter(test.Book.id==2).first()
+print(book_obj.authors)
 
 session.commit()
-
