@@ -16,8 +16,7 @@ class Rpc_Clinet(object):
 
         #保存命令结果字典
         self.Rpc_dict = {}
-        #保存任务ID列表
-        self.Id_List = []
+
         self.Get_Conf()
 
     def Get_Conf(self):
@@ -53,11 +52,11 @@ class Rpc_Clinet(object):
         :return: 
         '''
         while True:
-            choice = input('\033[35m>>:\033[0m')
+            choice = input('\033[35m>>:\033[0m').strip()
             choice_list = choice.split('"')
             if choice.startswith('run'):
                 if len(choice_list) == 3:
-                    cmd = choice[1]
+                    cmd = choice_list[1]
                     host_str = choice_list[2].strip()
                     if '--host' not in host_str:
                         print('cmd Error!')
@@ -155,7 +154,7 @@ class Rpc_Clinet(object):
         :return: 
         '''
         task_id = props.message_id
-        res = pickle.loads(body)
+        res = pickle.loads(body)['res']
         host = props.correlation_id
         self.Rpc_dict[task_id][host] = res
 
@@ -184,6 +183,7 @@ class Rpc_Clinet(object):
         '''
         for host in self.Rpc_dict[id]:
             print(('host %s')%host.center(50,'-'))
+            print(self.Rpc_dict[id][host])
         del self.Rpc_dict[id]
 
 
