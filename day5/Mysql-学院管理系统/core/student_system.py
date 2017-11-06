@@ -213,7 +213,23 @@ class View_Interface(object):
         创建课程
         :return: 
         '''
-        pass
+        print('创建课程'.center(50),'-')
+        name = input('请输入课程名称:')
+        table = self.DB.Tables['course']
+        choose_school = self.Sel_School()
+        choose_teacher = self.Sel_Teacher()
+        while True:
+            price = input('请输入课程价格：')
+            if price.isdigit():break
+            else:
+                print("价格必须是数字!")
+                continue
+        new_coures = table(name=name,school = choose_school,teacher=choose_teacher,price=price)
+        self.DB.Session.add(new_coures)
+        self.DB.Session.commit()
+
+
+
 
 
 ###
@@ -223,14 +239,57 @@ class View_Interface(object):
         教师接口
         :return: 
         '''
-        pass
+        if self.Is_Login is False:
+            print('请重新登录！')
+            exit()
+        menu_list = ['1.创建班级','2.创建学员','3.开始上课','批改作业']
+        menu_dict = {
+            '1.创建班级':self.Create_Class,
+            '2.选择学员':self.Choose_Student,
+            '3.开始上课':self.Start_Class,
+            '4,批改作业':self.Homework_Correcting
+        }
+        while True:
+            print('欢迎%s老师登录工作台'%self.Login_User.name).center(50,'-')
+            for menu in menu_list:
+                print(menu)
+            act = input('请选择(q推出)')
+            if act.isdigit() and int(act) <=len(menu_dict) and int(act)>0:
+                func = menu_dict[menu_list[int(act)-1]]
+                func()
+            elif act == 'q':
+                self.Is_Login = False
+                self.Login_User = None
+                break
+
+            else:
+                print('\033[35m选择错误!\033[0m')
+                continue
+        self.Menu()
+
 
     def Create_Class(self):
         '''
         创建班级
         :return: 
         '''
-        pass
+        res = False
+        table = self.DB.Tables['class']
+        print('请为班级选择课程')
+        choose_coures = self.Sel_Course()
+        if choose_coures is None:
+            res = False
+        else:
+            class_name = input("请输入班级名称：")
+            new_class = table(name=class_name,course=choose_coures)
+            self.DB.Session.add(new_class)
+            self.DB.Session.commit()
+            print('创建班级%s-%s成功'%choose_coures.name,class_name)
+            res = True
+        return res
+
+
+
 
     def Choose_Student(self):
         '''
@@ -312,7 +371,26 @@ class View_Interface(object):
         选择班级课程
         :return: 
         '''
-        pass
+        choose = None
+        table = self.DB.Tables['course']
+        course_list = self.DB.Session.query(table).filter(table.teacher==self.Login_User).all()
+        while True:
+            print('请选择课程'.center(50,'-'))
+            count = 1
+            if len(course_list) == 0:
+                print('还没有创建课程，请先创建课程!')
+                break
+            for course_obj in course_list:
+                print(count,',',course_obj.name,course_obj.school.name)
+                count += 1
+            act = input('请选择课程:')
+            if act.isdigit() and int(act) <= len(course_list) and int(act) >0:
+                choose = course_list[int(act)-1]
+                break
+            else:
+                print("选择错误！")
+                continue
+        return choose
 
 
     def Sel_School(self):
@@ -320,14 +398,52 @@ class View_Interface(object):
         选择学校，返回选择的学校ORM
         :return: 
         '''
-        pass
+        choose = None
+        school_table = self.DB.Tables['school']
+        school_obj = self.DB.Session.query(school_table).all()
+        if len(school_obj) == 0:
+            print('还未创建学校,请先创建学校！')
+            choose = self.Create_School()
+        else:
+            while True:
+                count = 1
+                for s_obj in school_obj:
+                    print(count,'.',s_obj.name,s_obj.address)
+                    count += 1
+                act = input('请选择学校:')
+                if act.isdigit() and int(act) >0 and int(act) <= len(school_obj):
+                    choose = school_obj[int(act)-1]
+                    break
+                else:
+                    print('选择错误！')
+                    continue
+        return choose
 
     def Sel_Teacher(self):
         '''
         选择教师，返回教师OBj
         :return: 
         '''
-        pass
+        choose= None
+        table = self.DB.Tables['user']
+        teacher_list = self.DB.Session.query(table).filter(table.type==self.Get_Role_Type()['teacher']).all()
+        if len(teacher_list) == 0:
+            print('还未创建老师，请先创建老师！')
+            exit()
+        while True:
+            count = 1
+            for teacher_obj in teacher_list:
+                print(count,teacher_obj.name)
+            act = input('请选择教师：')
+            if act.isdigit() and int(act) >0 and int(act) <= len(teacher_list):
+                choose = teacher_list[int(act)-1]
+                break
+            else:
+                print('选择错误！')
+                continue
+        return choose
+
+
 
 
 
