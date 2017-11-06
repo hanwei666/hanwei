@@ -189,7 +189,24 @@ class View_Interface(object):
         创建学校
         :return: 
         '''
-        pass
+        while True:
+            print('创建学校'.center(50,'-'))
+            name = input('请输入学校名称:')
+            address = input('请输入学校地址:')
+            table = self.DB.Tables['school']
+            school_obj = self.DB.Session.query(table).filter(table.name == name).first()
+            if school_obj is None:
+                new_school = table(name=name,address=address)
+                self.DB.Session.add(new_school)
+                self.DB.Session.commit()
+                print('学校%s创建成功!'%new_school.name)
+                break
+            else:
+                print('学校%s已经被创建,地址:%s'%(school_obj.name,school_obj.address))
+                continue
+        return  new_school
+
+
 
     def Create_Course(self):
         '''
