@@ -295,7 +295,49 @@ class View_Interface(object):
         '''
         将学员加入到班级
         '''
-        pass
+        table = self.DB.Tables['user']
+        type_table = self.DB.Tables['role_type']
+        choose_class = self.Sel_Class()
+        while True:
+            if choose_class is None:
+                break
+            else:
+                print('请选择学生加入你的班级'.center(50,'-'))
+                student_list = self.DB.Session.query(table).filter(table.type==self.Get_Role_Type()['student']).all()
+                your_student_list = []
+                for student in student_list:
+                    for course in student.student_courses:
+                        if course.course == choose_class.course:
+                            your_student_list.append(student)
+                if len(your_student_list) ==0:
+                    print("还没有学生选择你的课程！")
+                    break
+                count = 1
+                for your_student in your_student_list:
+                    print(count,'.',your_student.name,'QQ',your_student.qq)
+                    count +=1
+                act = input('请选择学生(q推出)：')
+                if act.isdigit() and int(act) >0 and int(act) <=len(your_student_list):
+                    choose_student = your_student_list[int(act)-1]
+                    class_student_table = self.DB.Tables['class_student']
+                    in_class = self.DB.Session.query(class_student_table).filter(class_student_table.s_class==choose_class).filter(class_student_table.student==choose_student).all()
+                    if len(in_class)==0:
+                        add_class_student = class_student_table(s_class=choose_class,student=choose_student)
+                        self.DB.Session.add(add_class_student)
+                        self.DB.Session.commit()
+                        print("添加学员%s成功！"%choose_student.name)
+                        continue
+                    else:
+                        print('学员%s已经存在！'%choose_student.name)
+                elif act == 'q':
+                    break
+                else:
+                    print('选择错误!')
+                    continue
+
+
+
+
 
     def Start_Class(self):
         '''
@@ -356,7 +398,35 @@ class View_Interface(object):
         选择班级上课或其他
         :return: 
         '''
-        pass
+        choose = None
+        table_course = self.DB.Tables['course']
+        table_class = self.DB.Tables['class']
+        while True:
+            print('选择班级'.center(50,'-'))
+            class_obj_list = []
+            course_list = self.DB.Session.query(table_course).filter(table_course.teacher == self.Login_User).all()
+            for course_obj in course_list:
+                temp_class = self.DB.Session.query(table_class).filter(table_class.course==course_obj).all()
+                class_obj_list.extend(temp_class)
+            count = 1
+            if len(class_obj_list) == 0:
+                print('你还没创建班级！')
+                break
+            for class_obj in class_obj_list:
+                print(count,'.',class_obj.name,class_obj.course.name)
+                count += 1
+            act = input("请选择班级：")
+            if act.isdigit() and int(act) <= len(class_obj_list) and int(act) >0:
+                choose = class_obj_list[int(act)-1]
+                break
+            else:
+                print('选择错误！')
+                continue
+        return choose
+
+
+
+
 
 
     def Sel_Class_Record(self):
