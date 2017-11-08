@@ -317,10 +317,10 @@ class View_Interface(object):
                     print(count,'.',your_student.name,'QQ',your_student.qq)
                     count +=1
                 act = input('请选择学生(q推出)：')
-                if act.isdigit() and int(act) >0 and int(act) <=len(your_student_list):
+                if act.isdigit() and int(act) >0 and int(act) <= len(your_student_list):
                     choose_student = your_student_list[int(act)-1]
                     class_student_table = self.DB.Tables['class_student']
-                    in_class = self.DB.Session.query(class_student_table).filter(class_student_table.s_class==choose_class).filter(class_student_table.student==choose_student).all()
+                    in_class = self.DB.Session.query(class_student_table).filter(                           class_student_table.s_class==choose_class).filter(class_student_table.student==choose_student).all()
                     if len(in_class)==0:
                         add_class_student = class_student_table(s_class=choose_class,student=choose_student)
                         self.DB.Session.add(add_class_student)
@@ -337,21 +337,96 @@ class View_Interface(object):
 
 
 
-
-
     def Start_Class(self):
         '''
         开始上课
         :return: 
         '''
-        pass
+        table = self.DB.Tables['class_record']
+        choose_class = self.Sel_Class()
+        res = False
+        if choose_class is None:
+            print('你还没有创建班级，请先创建班级！')
+        else:
+            record_list = self.DB.Session.query(table).filter(table.s_class==choose_class).all()
+            if len(record_list) == 0:
+                new_day = 1
+            else:
+                new_day = record_list[-1].day + 1
+            new_record = table(day=new_day,s_class=choose_class)
+            self.DB.Session.add(new_record)
+            self.DB.Session.commit()
+            print('%s第%d天开始上课'%(choose_class,new_day))
+            table_students = self.DB.Tables['class_students']
+            your_students_list = self.DB.Session.query(table_students).filter(table_students.s_class==choose_class)
+            new_study_record = []
+            for your_student in your_students_list:
+                your_student_record = self.DB.Tables['study_record'](class_record=new_record,student=your_student.name)
+                new_study_record.append(your_student_record)
+            self.DB.Session.add_all(new_study_record)
+            self.DB.Session.commit()
+            res =True
+
+        return res
+
+
+
+
 
     def Homework_Correcting(self):
         '''
         批改作业
         :return: 
         '''
-        pass
+        choose_class = self.Sel_Class()
+        table = self.DB.Tables['study_record']
+        while True:
+            choose_class_record = self.Sel_Class_Record(choose_class)
+            if choose_class_record is None:break
+            study_record_list = self.DB.Session.query(table).filter(table.class_record==choose_class_record).all()
+            count = 1
+            submited_record_list = []
+            for study_record in study_record_list:
+               if study_record.task_url is not None:
+                   print('%d.%s的作业'%(count,study_record.student.name)).center(50,'-')
+                   print('作业URL:',study_record.task_url)
+                   if study_record.score == 0:
+                       print('作业：未评分')
+                   else:
+                       print('成绩:',study_record.score)
+                   submited_record_list.append(study_record)
+                   count += 1
+            if len(submited_record_list) == 0:
+                print('还没有学员提交作业')
+                break
+            act = input('请选择学生作业评分')
+            if act.isdigit() and int(act) >0 and int(act) <= len(submited_record_list):
+                print('%s的作业'%submited_record_list[int(act)-1].student.name).center(50,'-')
+                print('作业URL：',submited_record_list[int(act)-1].task_url)
+                self.Open_Homework(submited_record_list[int(act)-1].task_url)
+                if submited_record_list[int(act)-1].score == 0:
+                    print("成绩：未评分")
+                else:
+                    print("成绩为：",submited_record_list[int(act)-1].score)
+                new_score = input('请复制URL并查看作业后评分:')
+                if new_score.isdigit() and int(new_score) >1 and int(new_score) <= 100:
+                    submited_record_list[int(act)-1].score = int(new_score)
+                    self.DB.Session.commit()
+                    print('评分成功！')
+                else:
+                    print('成绩必须为整数且在1-100之间！')
+                continue
+            elif act == 'q':
+                break
+            else:
+                print('选择错误！')
+                continue
+
+
+
+
+
+
 
 ###
 
@@ -386,12 +461,12 @@ class View_Interface(object):
 
 #########
 
-    def Open_Homework(self):
+    def Open_Homework(self,url):
         '''
         调用浏览器打开url
         :return: 
         '''
-        pass
+        webbrowser.open_new(url)
 
     def Sel_Class(self):
         '''
@@ -429,12 +504,34 @@ class View_Interface(object):
 
 
 
-    def Sel_Class_Record(self):
+    def Sel_Class_Record(self,class_obj):
         '''
         选择班级上课记录
         :return: 
         '''
-        pass
+        choose = None
+        table = self.DB.Tables['class_record']
+        while True:
+            print('请选择上课记录'.center(50,'-'))
+            class_record_list = self.DB.Session.query(table).filter(table.s_class==class_obj).all
+            count = 1
+            for class_record in class_record_list:
+                print(count,class_record)
+                count += 1
+            act = input('请选择记录(q推出)')
+            if act.isdigit() and int(act) >0 and int(act) <= len(class_record_list):
+                choose = class_record_list[int(act)-1]
+                break
+            elif act == 'q':
+                break
+            else:
+                print('选择错误！')
+                continue
+        return choose
+
+
+
+
 
     def Sel_Course(self):
         '''
