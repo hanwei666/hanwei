@@ -423,11 +423,6 @@ class View_Interface(object):
                 continue
 
 
-
-
-
-
-
 ###
 
     def Menu_Student(self):
@@ -435,14 +430,76 @@ class View_Interface(object):
         学生接口
         :return: 
         '''
-        pass
+        if self.Is_Login is False:
+            print('未登录无权限，请先登录！')
+            exit()
+        menu_list = ['1.挑选课程','2.提交作业','3.查看成绩']
+        menu_dict= {
+            '1.挑选课程':self.Sel_Student_Course,
+            '2.提交作业':self.Submit_Homework,
+            '3.查看成绩':self.Show_Score
+        }
+        while True:
+            print('学员%s主页'%self.Login_User.name).center(50,'-')
+            for menu in menu_list:
+                print(menu)
+            act = input('请选择(q推出)')
+            if act.isdigit() and int(act) >0 and int(act) <= len(menu_list):
+                func = menu_dict[menu_list[int(act)-1]]
+                func()
+            elif act == 'q':
+                self.Is_Login = False
+                self.Login_User = None
+                break
+            else:
+                print("选择错误！")
+                continue
+        self.Menu()
 
-    def Sel_Student(self):
+
+
+    def Sel_Student_Course(self):
         '''
         学生选课
         :return: 
         '''
-        pass
+        choose = None
+        table = self.DB.Tables['user_course']
+        course_table = self.DB.Tables['course']
+        course_list = self.DB.Session.query(course_table).all()
+        if len(course_list) == 0:
+            print('还没有创建课程！')
+            choose = None
+        else:
+            while True:
+                print("请挑选课程！".center(50,'-'))
+                count = 1
+                for course in course_list:
+                    print(count,course.name,- course.teacher.name,- course.school.name)
+                act = input('请选择：')
+                if act.isdigit() and int(act) >0 and int(act) <= len(course_list):
+                    choose = course_list[int(act)-1]
+                    student_course_table = self.DB.Tables['user_course']
+                    student_course_list = self.DB.Session.query(student_course_table).filter(student_course_table.user==self.Login_User).filter(student_course_table.course==choose).all()
+                    if len(student_course_list) != 0:
+                        print('你已经报名了此课程！')
+                        choose = None
+                        continue
+                    else:
+                        break
+                else:
+                    print('选择错误！')
+                    choose = None
+                    continue
+            new_sel_course = table(user=self.Login_User,course=choose)
+            self.DB.Session.add(new_sel_course)
+            self.DB.Session.commit()
+        return choose
+
+
+
+
+
 
 
     def Submit_Homework(self):
