@@ -106,7 +106,7 @@ class DB_Control(object):
 
         class Class_Record(Base):
             '''
-            上课记录
+            开课记录
             '''
             __tablename__ = "class_record"
             id = Column(Integer,primary_key=True,autoincrement=True)
@@ -224,3 +224,7 @@ class DB_Control(object):
 
 
 
+if __name__ == '__main__':
+
+    db = DB_Control()
+    db.Create_Default_Data()

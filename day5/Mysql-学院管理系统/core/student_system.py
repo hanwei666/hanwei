@@ -16,6 +16,7 @@ class View_Interface(object):
         self.DB = db_sql.DB_Control()
 
 
+
     def Menu(self):
         '''
         主页
@@ -49,7 +50,7 @@ class View_Interface(object):
         '''
         while True:
             print("用户登录".center(50,'-'))
-            username = input('请输入用户民：')
+            username = input('请输入用户名：')
             password = input ('请输入密码：')
             password = self.Create_Pwd(password)
             table = self.DB.Tables['user']
@@ -296,7 +297,6 @@ class View_Interface(object):
         将学员加入到班级
         '''
         table = self.DB.Tables['user']
-        type_table = self.DB.Tables['role_type']
         choose_class = self.Sel_Class()
         while True:
             if choose_class is None:
@@ -423,11 +423,6 @@ class View_Interface(object):
                 continue
 
 
-
-
-
-
-
 ###
 
     def Menu_Student(self):
@@ -435,14 +430,72 @@ class View_Interface(object):
         学生接口
         :return: 
         '''
-        pass
+        if self.Is_Login is False:
+            print('未登录无权限，请先登录！')
+            exit()
+        menu_list = ['1.挑选课程','2.提交作业','3.查看成绩']
+        menu_dict= {
+            '1.挑选课程':self.Sel_Student_Course,
+            '2.提交作业':self.Submit_Homework,
+            '3.查看成绩':self.Show_Score
+        }
+        while True:
+            print('学员%s主页'%self.Login_User.name).center(50,'-')
+            for menu in menu_list:
+                print(menu)
+            act = input('请选择(q推出)')
+            if act.isdigit() and int(act) >0 and int(act) <= len(menu_list):
+                func = menu_dict[menu_list[int(act)-1]]
+                func()
+            elif act == 'q':
+                self.Is_Login = False
+                self.Login_User = None
+                break
+            else:
+                print("选择错误！")
+                continue
+        self.Menu()
 
-    def Sel_Student(self):
+
+
+    def Sel_Student_Course(self):
         '''
         学生选课
         :return: 
         '''
-        pass
+        choose = None
+        table = self.DB.Tables['user_course']
+        course_table = self.DB.Tables['course']
+        course_list = self.DB.Session.query(course_table).all()
+        if len(course_list) == 0:
+            print('还没有创建课程！')
+            choose = None
+        else:
+            while True:
+                print("请挑选课程！".center(50,'-'))
+                count = 1
+                for course in course_list:
+                    print(count,course.name,- course.teacher.name,- course.school.name)
+                act = input('请选择：')
+                if act.isdigit() and int(act) >0 and int(act) <= len(course_list):
+                    choose = course_list[int(act)-1]
+                    student_course_table = self.DB.Tables['user_course']
+                    student_course_list = self.DB.Session.query(student_course_table).filter(student_course_table.user==self.Login_User).filter(student_course_table.course==choose).all()
+                    if len(student_course_list) != 0:
+                        print('你已经报名了此课程！')
+                        choose = None
+                        continue
+                    else:
+                        break
+                else:
+                    print('选择错误！')
+                    choose = None
+                    continue
+            new_sel_course = table(user=self.Login_User,course=choose)
+            self.DB.Session.add(new_sel_course)
+            self.DB.Session.commit()
+        return choose
+
 
 
     def Submit_Homework(self):
@@ -450,16 +503,55 @@ class View_Interface(object):
         提交作业
         :return: 
         '''
-        pass
+        table = self.DB.Tables['study_record']
+        while True:
+            empty_task = self.DB.Session.query(table).filter(table.student == self.Login_User).filter(table.task_url == None).all()
+            if len(empty_task) == 0:
+                print('\033[36m你还没有需要提交的作业\033[0m')
+                break
+            count = 1
+            print('选择你要提交作业的上课记录'.center(50,'-'))
+            for task in empty_task:
+                print(count,task.class_record.s_class.name,'第',task.class_record.day,task.class_record.s_class.course.name)
+                count += 1
+            act = input('请选择：')
+            if act.isdigit() and int(act) >0 and int(act) <= len(empty_task):
+                task_url = input('请输入你的作业url:')
+                empty_task[int(act)-1].task_url = task_url
+                self.DB.Session.commit()
+                print('作业提交成功，(q推出)')
+                continue
+            elif act == 'q':
+                break
+            else:
+                print('选择错误！')
+                continue
+
+
 
     def Show_Score(self):
         '''
         查看成绩
         :return: 
         '''
-        pass
+        table = self.DB.Tables['study_record']
+        your_score_list = self.DB.Session.query(table).filter(table.student==self.Login_User).all()
+        if len(your_score_list) == 0:
+            print('你还没有成绩记录，或没有提交作业')
+        else:
+            for your_score in your_score_list:
+                if your_score.score == 0:
+                    print(your_score)
+                else:
+                    all_score_list = self.DB.Session.query(table).filter(table.class_record==your_score.class_record).order_by(table.score.desc()).all()
+                    ranking = all_score_list.index(your_score) + 1
+                    print(your_score,'班级排名:',ranking)
 
-#########
+
+
+
+
+#####
 
     def Open_Homework(self,url):
         '''
