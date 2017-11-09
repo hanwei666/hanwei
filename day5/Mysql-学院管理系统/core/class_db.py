@@ -13,7 +13,7 @@ from sqlalchemy.orm import sessionmaker,relationship
 import configparser,hashlib
 
 class DB_Control(object):
-    def __int__(self):
+    def __init__(self):
         print("\033[35m-------------------\033[0m")
         self.Get_Conf()
         self.Tables = self.Table_Framework()
@@ -26,7 +26,7 @@ class DB_Control(object):
 
         self.Engine = create_engine(
             conn_str,
-            encoding='utf8'
+            encoding='utf8',
             #echo=True
         )
         DB_BASE = declarative_base()
@@ -40,19 +40,17 @@ class DB_Control(object):
         :return: 
         '''
         config = configparser.ConfigParser()
-        config.read(os.path.join(path,"conf",'config.ini'))
+        config.read(os.path.join(path,'conf','config.ini'))
         self.DB_TYPE = config['DB']['type']
-        self.DB_HOST = config["DB"]["host"]
-        self.DB_USER = config["DB"]["user"]
-        self.DB_PWD = config["DB"]["pwd"]
-        self.DB_NAME = config["DB"]["db_name"]
+        self.DB_HOST = config['DB']['host']
+        self.DB_USER = config['DB']['user']
+        self.DB_PWD = config['DB']['pwd']
+        self.DB_NAME = config['DB']['db_name']
 
     def Table_Framework(self):
         Base = self.Conn()
         class School(Base):
-            '''
-            学校
-            '''
+              #学校
             __tablename__ = 'school'
             id = Column(Integer,primary_key=True)
             name = Column(String(32),nullable=False)
@@ -60,6 +58,8 @@ class DB_Control(object):
 
             def __repr__(self):
                 return '<School>%s[%s]'%(self.name,self.address)
+
+
 
         class Course(Base):
             '''
@@ -69,7 +69,7 @@ class DB_Control(object):
             id = Column(Integer,primary_key=True)
             name = Column(String(32),nullable=False)
             teacher_id = Column(Integer,ForeignKey('user.id'))
-            teacher = relationship('User',backerf='teacher_courses')
+            teacher = relationship('User',backref='teacher_courses')
             school_id = Column(Integer,ForeignKey('school.id'))
             school = relationship('School',backref='courses')
             price = Column(Integer,nullable=False)
@@ -81,7 +81,7 @@ class DB_Control(object):
             '''
             班级
             '''
-            __tablename__ ='s_class'
+            __tablename__ = 's_class'
             id = Column(Integer,primary_key=True)
             name = Column(String(32),nullable=False)
             course_id = Column(Integer,ForeignKey('course.id'))
@@ -105,9 +105,7 @@ class DB_Control(object):
                 return '<Class_Student>姓名：%s[课程：%s-%s]'%(self.student.name,self.self.s_class.name,self.s_class.course.name)
 
         class Class_Record(Base):
-            '''
-            开课记录
-            '''
+            #开课记录
             __tablename__ = "class_record"
             id = Column(Integer,primary_key=True,autoincrement=True)
             day = Column(Integer,nullable=False)
@@ -143,9 +141,6 @@ class DB_Control(object):
                 return res
 
 
-        Base.metadata.create_all(self.Engine)
-
-
         class User(Base):
             '''
             用户
@@ -162,17 +157,13 @@ class DB_Control(object):
             def __repr__(self):
                 return '<User>name=%s,type=%s'%(self.name,self.type.name)
 
-
         class Role_Type(Base):
-            '''
-            用户类型
-            '''
-            __tablename__ ='role_type'
-            id = Column(Integer,primary_key=True,autoincrement=True)
-            name = Column(String(8),nullable=False)
+            __tablename__ = 'role_type'
+            id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+            name = Column(String(8), nullable=False)
 
             def __repr__(self):
-                return "<role_type>%s:%s"%(self.id,self.name)
+                return '<role_type>%s:%s' % (self.id, self.name)
 
         class User_Course(Base):
             '''
@@ -181,13 +172,15 @@ class DB_Control(object):
             __tablename__ = 'user_course'
             id = Column(Integer,primary_key=True,autoincrement=True)
             user_id = Column(Integer,ForeignKey('user.id'))
-            user = relationship('User',backrf="student_courses")
+            user = relationship('User',backref="student_courses")
             course_id = Column(Integer,ForeignKey('course.id'))
             course = relationship('Course',backref='user',foreign_keys=[course_id])
             pay_status = Column(String(32))
 
             def __repr__(self):
                 return "<user_course>user:%s,course:%s"%(self.user.name,self.course.name)
+
+        Base.metadata.create_all(self.Engine)
 
 
 
@@ -224,7 +217,4 @@ class DB_Control(object):
 
 
 
-if __name__ == '__main__':
 
-    db = DB_Control()
-    db.Create_Default_Data()

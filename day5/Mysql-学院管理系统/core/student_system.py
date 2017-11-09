@@ -7,13 +7,13 @@ sys.path.append(path)
 
 import hashlib,webbrowser
 
-from core import db_sql
+from core import class_db
 
 class View_Interface(object):
-    def __int__(self):
+    def __init__(self):
         self.Is_Login = False
         self.Login_User = None
-        self.DB = db_sql.DB_Control()
+        self.DB = class_db.DB_Control()
 
 
 
@@ -718,5 +718,6 @@ class View_Interface(object):
         for t in type_obj:
             type_dict[t.name] = t
         return type_dict
+
 
 
