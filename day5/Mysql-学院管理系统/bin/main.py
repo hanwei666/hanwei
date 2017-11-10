@@ -10,3 +10,4 @@ from core.student_system import View_Interface
 
 start = View_Interface()
 start.Menu()
+

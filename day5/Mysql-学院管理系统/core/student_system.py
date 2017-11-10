@@ -7,13 +7,13 @@ sys.path.append(path)
 
 import hashlib,webbrowser
 
-from core import db_sql
+from core import class_db
 
 class View_Interface(object):
-    def __int__(self):
+    def __init__(self):
         self.Is_Login = False
         self.Login_User = None
-        self.DB = db_sql.DB_Control()
+        self.DB = class_db.DB_Control()
 
 
 
@@ -36,7 +36,7 @@ class View_Interface(object):
                 func = menu_dict[menu_list[int(act)-1]]
                 func()
                 break
-            elif act.strip() =='q':
+            elif act.strip() == 'q':
                 exit()
             else:
                 print('选择错误！')
@@ -61,7 +61,6 @@ class View_Interface(object):
             else:
                 self.Is_Login = True
                 self.Login_User = user_obj
-                print('欢迎[%s]%s'%(user_obj.type.name,user_obj.name))
                 break
         return self.Is_Login
 
@@ -99,8 +98,8 @@ class View_Interface(object):
                 else:
                     password = self.Create_Pwd(password)
                     user_info['pwd'] = password
-                    qq = input('请输入QQ号:')
-                    email = input('请输入邮箱账号:')
+                    qq = input('请输入QQ号:').tsrip()
+                    email = input('请输入邮箱账号:').strip()
                     user_info['qq'] = qq
                     user_info['email'] = email
                     break
@@ -143,7 +142,7 @@ class View_Interface(object):
             role_type = self.Login_User.type.name
             menu_dict = {
                 'student':self.Menu_Student,
-                'tacher':self.Menu_Teacher,
+                'teacher':self.Menu_Teacher,
                 'admin':self.Menu_Admin
             }
             if role_type in menu_dict:
@@ -169,7 +168,7 @@ class View_Interface(object):
             '2.创建课程':self.Create_Course
         }
         while True:
-            print(('欢迎管理员%s登录'%self.Login_User.name)).center(50,'-')
+            print(('欢迎管理员%s登录'%self.Login_User.name).center(50,'-'))
             for menu in menu_list:
                 print(menu)
             act = input('请选择:(q推出)')
@@ -243,15 +242,15 @@ class View_Interface(object):
         if self.Is_Login is False:
             print('请重新登录！')
             exit()
-        menu_list = ['1.创建班级','2.创建学员','3.开始上课','批改作业']
+        menu_list = ['1.创建班级','2.创建学员','3.开始上课','4.批改作业']
         menu_dict = {
             '1.创建班级':self.Create_Class,
-            '2.选择学员':self.Choose_Student,
+            '2.创建学员':self.Choose_Student,
             '3.开始上课':self.Start_Class,
-            '4,批改作业':self.Homework_Correcting
+            '4.批改作业':self.Homework_Correcting
         }
         while True:
-            print('欢迎%s老师登录工作台'%self.Login_User.name).center(50,'-')
+            print('欢迎%s老师登录工作台'.center(50,'-')%self.Login_User.name)
             for menu in menu_list:
                 print(menu)
             act = input('请选择(q推出)')
@@ -277,15 +276,15 @@ class View_Interface(object):
         res = False
         table = self.DB.Tables['class']
         print('请为班级选择课程')
-        choose_coures = self.Sel_Course()
-        if choose_coures is None:
+        choose_course = self.Sel_Course()
+        if choose_course is None:
             res = False
         else:
             class_name = input("请输入班级名称：")
-            new_class = table(name=class_name,course=choose_coures)
+            new_class = table(name=class_name,course=choose_course)
             self.DB.Session.add(new_class)
             self.DB.Session.commit()
-            print('创建班级%s-%s成功'%choose_coures.name,class_name)
+            print('创建班级[%s-%s]成功' % (choose_course.name, class_name))
             res = True
         return res
 
@@ -319,7 +318,7 @@ class View_Interface(object):
                 act = input('请选择学生(q推出)：')
                 if act.isdigit() and int(act) >0 and int(act) <= len(your_student_list):
                     choose_student = your_student_list[int(act)-1]
-                    class_student_table = self.DB.Tables['class_student']
+                    class_student_table = self.DB.Tables['class_students']
                     in_class = self.DB.Session.query(class_student_table).filter(                           class_student_table.s_class==choose_class).filter(class_student_table.student==choose_student).all()
                     if len(in_class)==0:
                         add_class_student = class_student_table(s_class=choose_class,student=choose_student)
@@ -361,7 +360,7 @@ class View_Interface(object):
             your_students_list = self.DB.Session.query(table_students).filter(table_students.s_class==choose_class)
             new_study_record = []
             for your_student in your_students_list:
-                your_student_record = self.DB.Tables['study_record'](class_record=new_record,student=your_student.name)
+                your_student_record = self.DB.Tables['study_record'](class_record=new_record,student=your_student.student)
                 new_study_record.append(your_student_record)
             self.DB.Session.add_all(new_study_record)
             self.DB.Session.commit()
@@ -388,7 +387,7 @@ class View_Interface(object):
             submited_record_list = []
             for study_record in study_record_list:
                if study_record.task_url is not None:
-                   print('%d.%s的作业'%(count,study_record.student.name)).center(50,'-')
+                   print('%d.%s的作业'.center(50,'-')%(count,study_record.student.name))
                    print('作业URL:',study_record.task_url)
                    if study_record.score == 0:
                        print('作业：未评分')
@@ -399,16 +398,16 @@ class View_Interface(object):
             if len(submited_record_list) == 0:
                 print('还没有学员提交作业')
                 break
-            act = input('请选择学生作业评分')
+            act = input('请选择学生作业评分:')
             if act.isdigit() and int(act) >0 and int(act) <= len(submited_record_list):
-                print('%s的作业'%submited_record_list[int(act)-1].student.name).center(50,'-')
+                print('%s的作业'%submited_record_list[int(act)-1].student.name.center(50,'-'))
                 print('作业URL：',submited_record_list[int(act)-1].task_url)
                 self.Open_Homework(submited_record_list[int(act)-1].task_url)
                 if submited_record_list[int(act)-1].score == 0:
                     print("成绩：未评分")
                 else:
                     print("成绩为：",submited_record_list[int(act)-1].score)
-                new_score = input('请复制URL并查看作业后评分:')
+                new_score = input('请评分:')
                 if new_score.isdigit() and int(new_score) >1 and int(new_score) <= 100:
                     submited_record_list[int(act)-1].score = int(new_score)
                     self.DB.Session.commit()
@@ -440,7 +439,7 @@ class View_Interface(object):
             '3.查看成绩':self.Show_Score
         }
         while True:
-            print('学员%s主页'%self.Login_User.name).center(50,'-')
+            print('学员%s主页'.center(50,'-')%self.Login_User.name)
             for menu in menu_list:
                 print(menu)
             act = input('请选择(q推出)')
@@ -475,7 +474,7 @@ class View_Interface(object):
                 print("请挑选课程！".center(50,'-'))
                 count = 1
                 for course in course_list:
-                    print(count,course.name,- course.teacher.name,- course.school.name)
+                    print(count,course.name,course.teacher.name, course.school.name)
                 act = input('请选择：')
                 if act.isdigit() and int(act) >0 and int(act) <= len(course_list):
                     choose = course_list[int(act)-1]
@@ -605,7 +604,7 @@ class View_Interface(object):
         table = self.DB.Tables['class_record']
         while True:
             print('请选择上课记录'.center(50,'-'))
-            class_record_list = self.DB.Session.query(table).filter(table.s_class==class_obj).all
+            class_record_list = self.DB.Session.query(table).filter(table.s_class==class_obj).all()
             count = 1
             for class_record in class_record_list:
                 print(count,class_record)
@@ -705,8 +704,6 @@ class View_Interface(object):
 
 
 
-
-
     def Get_Role_Type(self):
         '''
         返回角色类型字典
@@ -718,5 +715,6 @@ class View_Interface(object):
         for t in type_obj:
             type_dict[t.name] = t
         return type_dict
+
 
 

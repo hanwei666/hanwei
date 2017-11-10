@@ -13,20 +13,20 @@ from sqlalchemy.orm import sessionmaker,relationship
 import configparser,hashlib
 
 class DB_Control(object):
-    def __int__(self):
+    def __init__(self):
+
         print("\033[35m-------------------\033[0m")
         self.Get_Conf()
         self.Tables = self.Table_Framework()
         self.Create_Default_Data()
-        print('\033[36m++++++++++++++++++++\033[0m')
+        print('\033[36m链接成功！\033[0m')
 
     def Conn(self):
-        conn_str = '%s+pymysql://%s:%s@%s/%s?charset=utf8'%(self.DB_TYPE,self.DB_USER,
-                                                            self.DB_PWD,self.DB_HOST,self.DB_NAME)
+        conn_str = '%s+pymysql://%s:%s@%s/%s?charset=utf8'%(self.DB_TYPE,self.DB_USER,self.DB_PWD,self.DB_HOST,self.DB_NAME)
 
         self.Engine = create_engine(
             conn_str,
-            encoding='utf8'
+            encoding='utf8',
             #echo=True
         )
         DB_BASE = declarative_base()
@@ -40,19 +40,17 @@ class DB_Control(object):
         :return: 
         '''
         config = configparser.ConfigParser()
-        config.read(os.path.join(path,"conf",'config.ini'))
+        config.read(os.path.join(path,'conf','config.ini'))
         self.DB_TYPE = config['DB']['type']
-        self.DB_HOST = config["DB"]["host"]
-        self.DB_USER = config["DB"]["user"]
-        self.DB_PWD = config["DB"]["pwd"]
-        self.DB_NAME = config["DB"]["db_name"]
+        self.DB_HOST = config['DB']['host']
+        self.DB_USER = config['DB']['user']
+        self.DB_PWD = config['DB']['pwd']
+        self.DB_NAME = config['DB']['db_name']
 
     def Table_Framework(self):
         Base = self.Conn()
         class School(Base):
-            '''
-            学校
-            '''
+              #学校
             __tablename__ = 'school'
             id = Column(Integer,primary_key=True)
             name = Column(String(32),nullable=False)
@@ -60,6 +58,8 @@ class DB_Control(object):
 
             def __repr__(self):
                 return '<School>%s[%s]'%(self.name,self.address)
+
+
 
         class Course(Base):
             '''
@@ -69,7 +69,7 @@ class DB_Control(object):
             id = Column(Integer,primary_key=True)
             name = Column(String(32),nullable=False)
             teacher_id = Column(Integer,ForeignKey('user.id'))
-            teacher = relationship('User',backerf='teacher_courses')
+            teacher = relationship('User',backref='teacher_courses')
             school_id = Column(Integer,ForeignKey('school.id'))
             school = relationship('School',backref='courses')
             price = Column(Integer,nullable=False)
@@ -81,7 +81,7 @@ class DB_Control(object):
             '''
             班级
             '''
-            __tablename__ ='s_class'
+            __tablename__ = 's_class'
             id = Column(Integer,primary_key=True)
             name = Column(String(32),nullable=False)
             course_id = Column(Integer,ForeignKey('course.id'))
@@ -105,9 +105,7 @@ class DB_Control(object):
                 return '<Class_Student>姓名：%s[课程：%s-%s]'%(self.student.name,self.self.s_class.name,self.s_class.course.name)
 
         class Class_Record(Base):
-            '''
-            开课记录
-            '''
+            #开课记录
             __tablename__ = "class_record"
             id = Column(Integer,primary_key=True,autoincrement=True)
             day = Column(Integer,nullable=False)
@@ -132,7 +130,7 @@ class DB_Control(object):
             score = Column(Integer,nullable=False,default=0)
 
             def __repr__(self):
-                res = '<study_record>%s在%s'%(self.student.name,self.class_record.name)
+                res = '<study_record>%s在%s'%(self.student.name,self.class_record.s_class.name)
                 res += '第%d天课程'%self.class_record.day
                 if self.task_url == None:
                     res += '[作业未提交]'
@@ -142,8 +140,14 @@ class DB_Control(object):
                     res += '[%d分]'%self.score
                 return res
 
+        class Role_Type(Base):
+            __tablename__ = 'role_type'
+            id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+            name = Column(String(8), nullable=False)
 
-        Base.metadata.create_all(self.Engine)
+            def __repr__(self):
+                return '<role_type>%s:%s' % (self.id, self.name)
+
 
 
         class User(Base):
@@ -163,16 +167,6 @@ class DB_Control(object):
                 return '<User>name=%s,type=%s'%(self.name,self.type.name)
 
 
-        class Role_Type(Base):
-            '''
-            用户类型
-            '''
-            __tablename__ ='role_type'
-            id = Column(Integer,primary_key=True,autoincrement=True)
-            name = Column(String(8),nullable=False)
-
-            def __repr__(self):
-                return "<role_type>%s:%s"%(self.id,self.name)
 
         class User_Course(Base):
             '''
@@ -181,7 +175,7 @@ class DB_Control(object):
             __tablename__ = 'user_course'
             id = Column(Integer,primary_key=True,autoincrement=True)
             user_id = Column(Integer,ForeignKey('user.id'))
-            user = relationship('User',backrf="student_courses")
+            user = relationship('User',backref="student_courses")
             course_id = Column(Integer,ForeignKey('course.id'))
             course = relationship('Course',backref='user',foreign_keys=[course_id])
             pay_status = Column(String(32))
@@ -190,6 +184,24 @@ class DB_Control(object):
                 return "<user_course>user:%s,course:%s"%(self.user.name,self.course.name)
 
 
+        Base.metadata.create_all(self.Engine)
+        table_dict = {
+            'user': User,
+            'user_course': User_Course,
+            'role_type': Role_Type,
+            'course': Course,
+            'class': S_Class,
+            'class_students': Class_Students,
+            'school': School,
+            'class_record': Class_Record,
+            'study_record': Study_Record
+        }
+        # 返回表结构对象字典
+        return table_dict
+
+
+    def Create_Pwd(self,pwd):
+        return hashlib.md5(pwd.encode("utf8")).hexdigest()
 
     def Create_Default_Data(self):
         table = self.Tables['role_type']
@@ -203,12 +215,12 @@ class DB_Control(object):
             type_dict = {
                 'student':type1,
                 'teacher':type2,
-                'admin':type3
+                'admin':type3,
             }
         else:
             type_dict = {}
-            for i in type_obj:
-                type_dict[i.name]=i
+            for t in type_obj:
+                type_dict[t.name]=t
         table = self.Tables['user']
         default_user_list = self.Session.query(table).all()
         if len(default_user_list) == 0:
@@ -219,8 +231,14 @@ class DB_Control(object):
             self.Session.commit()
 
 
-    def Create_Pwd(self,pwd):
-        return hashlib.md5(pwd.encode('utf8')).hexdigest()
+
+if __name__ == '__main__':
+    db = DB_Control()
+    print(db.Tables)
+    #table = db.Tables['role_type']
+    #print(table.__dict__.keys())
+
+
 
 
 
