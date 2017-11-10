@@ -224,7 +224,3 @@ class DB_Control(object):
 
 
 
-if __name__ == '__main__':
-
-    db = DB_Control()
-    db.Create_Default_Data()
