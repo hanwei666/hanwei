@@ -24,6 +24,19 @@
 
 ​             html标签，标签内部可以写属性 ===>  只能有一个
 
- 
+ ```
+<!DOCTYPE html>           <!-- 定义规则(有多个版本)-->
+<html lang="en">          <!--标签和标--签属性 -->
+<head>                     <!--头 -->
+    <meta charset="UTF-8">
+    <title>han</title>
+</head>
+<body>                       <!--身 -->
+     <a href="http://www.phicomm.com">斐讯</a>   <!--定义超链接 -->
+</body>
+</html>
+ ```
+
+
 
 ​            
