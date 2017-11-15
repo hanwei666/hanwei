@@ -39,4 +39,21 @@
 
 
 
-​            
+​   5.input系列
+
+​       input   type='text'                  - name属性，value='张三'
+
+​       input   type='password'        -name属性    value='张三'
+
+​       input type='submit'              -value=‘提交’   提交按钮,表单
+
+​       input type='button'               -value='登录'   按钮
+
+​        input type='radio'                 -单选框 value, checked='checked',name 属性(name相同侧互诉)
+
+​        input type='checkbox'          -复选框 value checked='checked',name属性 (批量获取数据)
+
+​        input type='file'                     -依赖form表单的一个属性 enctype='multipart/form-data' 
+
+​         input type='reset'                -重置       
+
