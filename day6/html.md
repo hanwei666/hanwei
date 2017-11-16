@@ -254,3 +254,45 @@ if __name__ == "__main__":
       </table>
 </body>
 ```
+
+table 标准写法和合并单元格
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<table border="1">
+    <thead>       #表头
+    <tr>
+        <th>表头1</th>
+        <th>表头2</th>
+        <th>表头3</th>
+        <th>表头4</th>
+    </tr>
+    </thead>
+    <tbody>       #表身
+    <tr>
+        <td>1</td>
+        <td colspan="3">2</td>  #横合并单元格
+    </tr>
+    <tr>
+        <td rowspan="2">1</td> #竖合并单元格
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+    </tr>
+    </tbody>
+</table>
+<body>
+
+</body>
+</html>
+```
