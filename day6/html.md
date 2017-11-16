@@ -204,7 +204,7 @@ if __name__ == "__main__":
 </body>
 ```
 
-9.ul,ol,dl,dd标签
+9.列表ul,ol,dl,dd标签
 
 ```
 <body>
@@ -295,4 +295,153 @@ table 标准写法和合并单元格
 
 </body>
 </html>
+```
+11.id选择器
+
+```
+<body>
+  <fieldset> 加框
+      <label for="username">用户名:</label>
+      <input id="username" type="text" name="user"/>
+      <br />
+      <label for="pwd">密码:</label>
+      <input id="pwd" type="text" name="user"/>
+  </fieldset> 加框
+</body>
+```
+12.写在head里面，style标签中写样式
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+          #i3{
+             background-color: #660033;
+             height;48px;
+             }
+           #i2{
+             background-color: #66FF99;
+             height;48px;
+             }
+      </style>
+</head>
+<body>
+      <div style="background-color: #2459a2;height;48px;">ff</div>
+      <div id="i3">test1</div>
+      <div id="i2">test1</div>
+
+</body>
+```
+
+12.class选择器
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+          .c1{
+             background-color: #660033;
+             height;48px;
+             }
+      </style>
+</head>
+<body>
+      <div style="background-color: #2459a2;height;48px;">ff</div>
+      <div class="c1">test1</div>
+      <div class="c1">test1</div>
+
+</body>
+```
+
+13.标签选择器
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+          div{
+             background-color: #660033;
+             height;48px;
+             }
+      </style>
+</head>
+<body>
+      <div style="background-color: #2459a2;height;48px;">ff</div>
+      <p style="background-color: #FF3399;height;48px;">abc,abc</p>
+      <div class="c1">test1</div>
+      <div class="c1">test1</div>
+
+</body>
+```
+
+14.层级选择器
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+          .c1{
+             background-color: #660033;
+             height;48px;
+             }
+          .c2{
+             background-color: #66CC99;
+             height;48px;
+             }
+          div span{
+             background-color: #6600CC;
+             height;48px;
+             }
+      </style>
+
+</head>
+<body>
+      <!--<div style="background-color: #2459a2;height;48px;">ff</div>-->
+      <!--<p style="background-color: #FF3399;height;48px;">abc,abc</p>-->
+      <!--<div class="c1">test11</div>-->
+      <div class="c2">test12
+          <span>test2</span>
+          <span>test3</span>
+      </div>
+</body>
+```
+
+15.组合选择器
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+          #i1,#i2{
+             background-color: #660033;
+             height;48px;
+             }
+      </style>
+
+</head>
+<body>
+      <div id="i1">test11</div>
+      <div id="i2">test12</div>
+</body>
+```
+
+16.属性选择器
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+           input[type='text']{ width:100px; height:200px;}
+    </style>
+</head>
+<body>
+      <input type="text">
+      <input type="password">
+</body>
 ```
