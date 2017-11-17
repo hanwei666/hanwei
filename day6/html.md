@@ -296,7 +296,11 @@ table 标准写法和合并单元格
 </body>
 </html>
 ```
-11.id选择器
+
+
+#css
+
+11. 写在head里面，style标签中写样式
 
 ```
 <body>
@@ -309,7 +313,7 @@ table 标准写法和合并单元格
   </fieldset> 加框
 </body>
 ```
-12.写在head里面，style标签中写样式
+12.id选择器
 
 ```
 <head>
@@ -443,5 +447,84 @@ table 标准写法和合并单元格
 <body>
       <input type="text">
       <input type="password">
+</body>
+```
+17.css优先级
+
+```
+    <style>
+           .c1{                          #优先级3
+               background-color：red;
+               color:white
+           }
+           .c2{                           #优先级2
+               font-size: 58px;
+               color:black;
+           }
+    </style>
+</head>
+<body>
+      <div class="c1 c2 " style="color:pink">testabc</div> #优先级1
+</body>
+```
+
+18.css注释
+
+/* /*
+
+19.css引用文件
+
+css.css文件
+
+```
+.c1{
+    background-color：red;
+    color:white
+}
+.c2{
+    font-size: 58px;  #字体大小
+    color:black;      #字体颜色
+}
+```
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css.css"/>
+</head>
+<body>
+      <div class="c1 c2">testabc</div>
+</body>
+```
+
+上级路径
+
+<link rel="styelsheet href=../../css/css.css"/>
+
+19.边框
+
+宽度 样式 颜色 (border:4px dotted red;)
+
+border-left
+
+```
+<body>
+      <div style="border: 1px solid red;">
+          test12
+      </div>
+</body>
+```
+
+```
+<body>
+      <div style="height:48px;  像素 高度 百分比
+      width:80%;                宽度 高度 百分比
+      border:1px solid red;     边框
+      font-size:16px;           字体大小
+      text-align:center;        上下居中
+      line-height:48px;         左右居中
+      font-weight:bold;         字体加粗
+      ">asdasdasd</div>
 </body>
 ```
