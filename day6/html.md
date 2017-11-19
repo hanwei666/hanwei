@@ -322,11 +322,11 @@ table 标准写法和合并单元格
     <style>
           #i3{
              background-color: #660033;
-             height;48px;
+             height：48px;
              }
            #i2{
              background-color: #66FF99;
-             height;48px;
+             height：48px;
              }
       </style>
 </head>
@@ -347,7 +347,7 @@ table 标准写法和合并单元格
     <style>
           .c1{
              background-color: #660033;
-             height;48px;
+             height：48px;
              }
       </style>
 </head>
@@ -368,7 +368,7 @@ table 标准写法和合并单元格
     <style>
           div{
              background-color: #660033;
-             height;48px;
+             height：48px;
              }
       </style>
 </head>
@@ -390,15 +390,15 @@ table 标准写法和合并单元格
     <style>
           .c1{
              background-color: #660033;
-             height;48px;
+             height：48px;
              }
           .c2{
              background-color: #66CC99;
-             height;48px;
+             height：48px;
              }
           div span{
              background-color: #6600CC;
-             height;48px;
+             height：48px;
              }
       </style>
 
@@ -527,4 +527,139 @@ border-left
       font-weight:bold;         字体加粗
       ">asdasdasd</div>
 </body>
+```
+20.float标签（让标签浮动起来）
+
+```
+<body>
+     <div style="width:%20;background-color:red;float:left">123</div>
+     <div style="width:%60;background-color:black;float:right">456</div>
+
+</body>
+```
+
+
+
+```
+    <style>
+        .c1{
+        background-color: #dddddd;
+        height: 38px;
+        line-height: 38px
+        }
+    </style>
+</head>
+
+<body style="margin: 0 auto;">   #去除开头空格
+      <div class="c1">
+          <div style="float: left;">收藏本站</div>
+          <div style="float: right;">
+              <a>登录</a>
+              <a>注册</a>
+          </div>
+      </div>
+      <div style="width: 300px;border: 1px solid red;">   设置边框
+          <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div> 嵌套边框
+          <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div>
+          <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div>
+          <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div>
+          <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div>
+          <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div>
+          <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div>
+          <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div>
+          <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div>
+          <div style="clear:both;"></div> 显示包裹的边框
+      </div>
+</body>
+```
+
+标签互转
+
+```
+<body>
+      <div style="background-color: red;display: inline;">test1</div>  #块转换为行内
+      <span style="background-color: red;display:block;">test2</span>  #行内转换为块
+</body>
+```
+
+display: none 让标签消失
+
+display: inlien
+
+display:block
+
+display:inline-block
+
+​          具有inlien 默认自己有多少占多少
+
+​         具有block 可以设置高度，宽度
+
+行内标签：无法设置高度，宽度，padding  margin
+
+块级标签：设置高度，宽度，padding margin
+
+
+
+```
+<body>
+      <span style="display:inline-block;background-color: red;height: 50px;width: 70px">sdsd</span>
+      <a style="background-color:red;">asdf</a>
+</body>
+```
+
+
+
+display:inline-block
+
+```
+<body>
+      <span style="display:none;background-color: red;height: 50px;width: 70px">sdsd</span>
+      <a style="background-color:red;">asdf</a>
+</body>
+```
+
+21.padding margin(0,auto)
+
+
+
+margin:外边框(向下移动)
+
+```
+<body>
+      <div style="border:1px solid red;height:70px;">
+          <div style="background-color : green; height: 50px;
+               margin-top: 47px;">...</div>
+      </div>
+</body>
+```
+
+
+
+padding:内边框(向下延长)
+
+```
+<body>
+      <div style="border:1px solid red;height:70px;">
+          <div style="background-color : green; height: 50px;
+               padding-top: 8px;">...</div>
+      </div>
+</body>
+```
+
+
+
+嵌套边框居中
+
+```
+<body style="margin: 0 auto;">
+      <div class="c1">
+          <div style="width: 980px;margin: 0 auto;">
+          <div style="float: left;">收藏本站</div>
+          <div style="float: right;">
+              <a>登录</a>
+              <a>注册</a>
+          </div>
+          <div style="clear: both"></div>
+          </div>
+      </div>
 ```
