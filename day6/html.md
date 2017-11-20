@@ -568,7 +568,7 @@ border-left
           <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div>
           <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div>
           <div style="width: 96px;height:30px;border: 1px solid green;float:left;"></div>
-          <div style="clear:both;"></div> 显示包裹的边框
+          <div style="clear:both;"></div> 关闭浮动
       </div>
 </body>
 ```
