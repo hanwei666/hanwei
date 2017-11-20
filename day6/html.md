@@ -522,8 +522,8 @@ border-left
       width:80%;                宽度 高度 百分比
       border:1px solid red;     边框
       font-size:16px;           字体大小
-      text-align:center;        上下居中
-      line-height:48px;         左右居中
+      text-align:center;        左右居中
+      line-height:48px;         上下居中
       font-weight:bold;         字体加粗
       ">asdasdasd</div>
 </body>
