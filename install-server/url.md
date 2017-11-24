@@ -330,4 +330,9 @@ chkconfig NetworkManager off
 
 <http://earring.blog.51cto.com/402395/1422857>
 
- 
+
+
+ ## centos7 搭建Nextcloud 
+
+https://linux.cn/article-8242-1.html
+
