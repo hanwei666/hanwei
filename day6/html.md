@@ -663,3 +663,33 @@ padding:内边框(向下延长)
           </div>
       </div>
 ```
+## CSS 内边距属性
+
+| 属性                                       | 描述                         |
+| ---------------------------------------- | -------------------------- |
+| [padding](http://www.w3school.com.cn/cssref/pr_padding.asp) | 简写属性。作用是在一个声明中设置元素的所内边距属性。 |
+| [padding-bottom](http://www.w3school.com.cn/cssref/pr_padding-bottom.asp) | 设置元素的下内边距。                 |
+| [padding-left](http://www.w3school.com.cn/cssref/pr_padding-left.asp) | 设置元素的左内边距。                 |
+| [padding-right](http://www.w3school.com.cn/cssref/pr_padding-right.asp) | 设置元素的右内边距。                 |
+| [padding-top](http://www.w3school.com.cn/cssref/pr_padding-top.asp) | 设置元素的上内边距。                 |
+
+
+
+```
+h1 {
+  padding-top: 10px;
+  padding-right: 0.25em;
+  padding-bottom: 2ex;
+  padding-left: 20%;
+  }
+```
+
+## CSS 外边距属性
+
+| 属性                                       | 描述                    |
+| ---------------------------------------- | --------------------- |
+| [margin](http://www.w3school.com.cn/cssref/pr_margin.asp) | 简写属性。在一个声明中设置所有外边距属性。 |
+| [margin-bottom](http://www.w3school.com.cn/cssref/pr_margin-bottom.asp) | 设置元素的下外边距。            |
+| [margin-left](http://www.w3school.com.cn/cssref/pr_margin-left.asp) | 设置元素的左外边距。            |
+| [margin-right](http://www.w3school.com.cn/cssref/pr_margin-right.asp) | 设置元素的右外边距。            |
+| [margin-top](http://www.w3school.com.cn/cssref/pr_margin-top.asp) | 设置元素的上外边距。            |
