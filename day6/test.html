@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
 <body>
-   <div style="height: 35px;width: 370px;position: relative;">
-       <input type="text" style="height:
-       35px;width: 370px;padding-right: 30px;">
-       <span style="position:absolute;
-       right: 60px;top: 10px;
-       background-image: url('a.png'); height: 16px;
-       width: 20px;display: inline-block;
-       margin-right: -80px;
-       "></span>
-   </div>
+     <div id="i1">欢迎老男孩指导</div>
+     <script>
+         function func(){
+         //根据ID获取指定标签的内容，定于局部变量
+         var tag = document.getElementById('i1');
+         //获取标签内容的内容
+         var content = tag.innerText;
+         var f = content.charAt(0);
+         var l = content.substring(1,content.length);
+         var new_content = l + f;
+         tag.innerText = new_content;
+         }
+         setInterval('func()',500);
+     </script>
 </body>
 </html>

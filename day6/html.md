@@ -210,3 +210,65 @@ border:1px solid red;
    </div>
 </body>
 ```
+
+
+
+
+#### js
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        alert(123);
+    </script>
+</head>
+
+
+
+a.js
+alert(123);
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='test.js'> </script>
+</head>
+
+
+
+a = "alex"
+
+获取索引位置
+a.charAt(0)
+
+获取开始到结束位置
+a.substring(1,3)
+
+获取长度
+a.length
+
+
+
+charAt(0),ontent.substring,setInterval
+
+
+<body>
+     <div id="i1">欢迎老男孩指导</div>
+     <script>
+         function func(){
+         //根据ID获取指定标签的内容，定于局部变量
+         var tag = document.getElementById('i1');
+         //获取标签内容的内容
+         var content = tag.innerText;
+         var f = content.charAt(0);
+         var l = content.substring(1,content.length);
+         var new_content = l + f;
+         tag.innerText = new_content;
+         }
+         setInterval('func()',500);
+     </script>
+</body>
+</html>
