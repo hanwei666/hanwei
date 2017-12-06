@@ -272,3 +272,93 @@ charAt(0),ontent.substring,setInterval
      </script>
 </body>
 </html>
+
+
+
+#### 字符串
+
+```
+obj.length                           长度
+ 
+obj.trim()                           移除空白
+obj.trimLeft()
+obj.trimRight)
+obj.charAt(n)                        返回字符串中的第n个字符
+obj.concat(value, ...)               拼接
+obj.indexOf(substring,start)         子序列位置
+obj.lastIndexOf(substring,start)     子序列位置
+obj.substring(from, to)              根据索引获取子序列
+obj.slice(start, end)                切片
+obj.toLowerCase()                    大写
+obj.toUpperCase()                    小写
+obj.split(delimiter, limit)          分割
+```
+
+
+
+#### 布尔值
+
+```
+==      比较值相等
+!=       不等于
+===   比较值和类型相等
+!===  不等于
+||        或
+&&      且
+```
+
+#### 数组
+
+```
+JavaScript中的数组类似于Python中的列表
+
+常见功能：
+
+obj.length          数组的大小
+ 
+obj.push(ele)       尾部追加元素
+obj.pop()           尾部获取一个元素
+obj.unshift(ele)    头部插入元素
+obj.shift()         头部移除元素
+obj.splice(start, deleteCount, value, ...)  插入、删除或替换数组的元素
+                    obj.splice(n,0,val) 指定位置插入元素
+                    obj.splice(n,1,val) 指定位置替换元素
+                    obj.splice(n,1)     指定位置删除元素
+                    
+obj.splice(1,1,"a")  删除索引1删除1个插入a
+
+obj.slice( )        切片
+obj.reverse( )      反转
+obj.join(sep)       将数组元素连接起来以构建一个字符串
+obj.concat(val,..)  连接数组
+obj.sort( )         对数组元素进行排序
+```
+
+##### 循环数组
+
+```
+var a=["k1","k2"]
+
+for(var item in a){
+    console.log(a[item]);
+}
+ k1
+ k2
+```
+
+##### 字典
+
+```
+var a={'k1':'v1','k2':'v2'}
+
+for(var item in a){
+    console.log(a[item],item);
+}
+
+v1 k1
+v2 k2
+
+```
+
+
+

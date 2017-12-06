@@ -336,3 +336,31 @@ chkconfig NetworkManager off
 
 https://linux.cn/article-8242-1.html
 
+
+
+# centos6.6 搭建kickstart
+
+http://www.cnblogs.com/mchina/p/centos-pxe-kickstart-auto-install-os.html
+
+lvm
+http://www.178linux.com/4269
+
+```
+# Partition clearing information
+clearpart --all
+# Disk partitioning information
+part /boot --fstype="ext4" --size=200
+
+#part / --fstype="ext4" --size=50000
+part pv.01 --grow --size=1
+volgroup VolGroup --pesize=4096 pv.01
+logvol / --fstype=ext4 --name=lv_root --vgname=VolGroup --size=40000
+
+part swap --fstype="swap" --size=8000
+```
+
+
+
+dhcp
+http://www.linuxidc.com/Linux/2015-11/125040.htm
+
