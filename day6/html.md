@@ -362,3 +362,101 @@ v2 k2
 
 
 
+##### for循环
+
+````
+for(var i=0;i<10;i+=1){
+    console.log(i)
+}
+
+
+var a = [11,22,33,55]
+for(var i=0;i<a.length;i+=1){
+    console.log(i)
+}
+
+不支持字典循环
+````
+
+##### if体哦见语句
+
+```
+if(条件){
+  
+}else if(条件){
+  
+}else if(条件){
+  
+}else{
+  
+}
+```
+
+##### 函数
+
+```
+function test(a,b,c){
+}
+test(1,2,3)
+```
+
+
+
+##### 元素查找
+
+直接查找
+
+````
+document.getElementById             根据ID获取一个标签
+document.getElementsByName          根据name属性获取标签集合
+document.getElementsByClassName     根据class属性获取标签集合
+document.getElementsByTagName       根据标签名获取标签集合
+````
+
+间接查找
+
+```
+parentNode          // 父节点
+childNodes          // 所有子节点
+firstChild          // 第一个子节点
+lastChild           // 最后一个子节点
+nextSibling         // 下一个兄弟节点
+previousSibling     // 上一个兄弟节点
+ 
+parentElement           // 父节点标签元素
+children                // 所有子标签
+firstElementChild       // 第一个子标签元素
+lastElementChild        // 最后一个子标签元素
+nextElementtSibling     // 下一个兄弟标签元素
+previousElementSibling  // 上一个兄弟标签元素
+```
+
+操作
+
+```
+<body>
+    <div id="i1">我是i1</div>
+    <a>test1</a>
+    <a>test2</a>
+    <a>test3</a>
+</body>
+
+document.getElementById('i1')   找到标签
+document.getElementById('i1').innerText  获取内容
+document.getElementById('i1').innerText = '新内容'  修改
+
+
+document.getElementsByTagName('a')        取a标签
+document.getElementsByTagName('a')[1]     取第一个a标签
+document.getElementsByTagName('a')[1],innerText = 666;  修改
+
+```
+
+#####for循环修改标签
+
+```
+tags=document.getElementsByTagName('a');
+for(var i=0;i<tags.length;i++){tags[i],innerText=777;}
+
+```
+
