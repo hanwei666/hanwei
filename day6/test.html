@@ -2,17 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title></title>
     <style>
-        hide{
-
+        .hide{
+        display: none;
+        }
+        .c1{
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: black;
+        opacity:0.5;
+        z-index: 9;
+        }
+        .c2{
+        width: 500px;
+        height: 400px;
+        background-color: white;
+        position: fixed;
+        left: 50%;
+        top: %50;
+        margin-left: -250px;
+        margin-top: -200px;
+        z-index: 10;
         }
     </style>
 </head>
-<body>
-    <div id="i1">我是i1</div>
-    <a>test1</a>
-    <a>test2</a>
-    <a>test3</a>
+<body style="margin: 0;">
+
+    <div>
+        <input type="button" value="添加"  onclick="ShowModel();"/>
+    </div>
+
+    <div id="i1" class="c1 hide"> </div>
+
+    <div id="i2" class="c2 hide">
+
+        <p><input type="text" ></p>
+        <p><input type="text" /></p>
+        <p>
+            <input type="button" value="取消" onclick="HideModel();"/>
+            <input type="button" value="确认"/>
+        </p>
+    </div>
+
+    <script>
+        function ShowModel(){
+        document.getElementById('i1').classList.remove('hide');
+        document.getElementById('i2').classList.remove('hide');
+        }
+        function HideModel(){
+        document.getElementById('i1').classList.add('hide')
+        document.getElementById('i2').classList.add('hide')
+        }
+    </script>
+
 </body>
 </html>
