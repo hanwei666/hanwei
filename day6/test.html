@@ -2,62 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Title</title>
     <style>
-        .hide{
-        display: none;
-        }
-        .c1{
-        position: fixed;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
+        .pg-hesder{
+        height: 48px;
         background-color: black;
-        opacity:0.5;
-        z-index: 9;
-        }
-        .c2{
-        width: 500px;
-        height: 400px;
-        background-color: white;
+        color: #dddddd;
         position: fixed;
-        left: 50%;
-        top: %50;
-        margin-left: -250px;
-        margin-top: -200px;
-        z-index: 10;
+        top:0;
+        right:0;
+        left:0;
+        }
+        .pg-body{
+        background-color:#dddddd;
+        height:5000px;
+        margin-top:50px;
         }
     </style>
 </head>
-<body style="margin: 0;">
-
-    <div>
-        <input type="button" value="添加"  onclick="ShowModel();"/>
-    </div>
-
-    <div id="i1" class="c1 hide"> </div>
-
-    <div id="i2" class="c2 hide">
-
-        <p><input type="text" ></p>
-        <p><input type="text" /></p>
-        <p>
-            <input type="button" value="取消" onclick="HideModel();"/>
-            <input type="button" value="确认"/>
-        </p>
-    </div>
-
-    <script>
-        function ShowModel(){
-        document.getElementById('i1').classList.remove('hide');
-        document.getElementById('i2').classList.remove('hide');
-        }
-        function HideModel(){
-        document.getElementById('i1').classList.add('hide')
-        document.getElementById('i2').classList.add('hide')
-        }
-    </script>
-
+<body>
+      <div class="pg-hesder">头部</div>
+      <div class="pg-body">内容</div>
 </body>
 </html>

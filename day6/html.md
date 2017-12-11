@@ -539,3 +539,208 @@ for(var i=0;i<tags.length;i++){tags[i],innerText=777;}
 </body>
 ```
 
+##### 全选，反选。取消
+
+```
+<body style="margin: 0;">
+
+       <div>
+           <input type="button" value="添加" onclick="ShwModel();" />
+           <input type="button" value="全选" onclick="ChooseAll();" />
+           <input type="button" value="取消" onclick="CancleAll();" />
+           <input type="button" value="反选" onclick="ReverseAll();" />
+
+           <table>
+               <thead>
+                      <tr>
+                          <th>选择</th>
+                          <th>主机名</th>
+                          <th>端口</th>
+                      </tr>
+               </thead>
+
+               <tbody id="tb">
+               <tr>
+                   <td><input type="checkbox" /></td>
+                   <td>1.1.1.1</td>
+                   <td>190</td>
+               </tr>
+               <tr>
+                   <td><input type="checkbox" /></td>
+                   <td>1.1.1.3</td>
+                   <td>193</td>
+               </tr>
+               </tbody>
+           </table>
+       </div>
+
+       <script>
+           function ChooseAll(){
+               //获取id
+               var tbody = document.getElementById('tb');
+               //获取孩子
+               var tr_list = tbody.children;
+               //循环孩子
+               for(var i=0;i<tr_list.length;i++){
+                   var current_tr = tr_list[i]
+                   var checkbox = current_tr.children[0].children[0];
+                   //修改
+                   checkbox.checked = true;
+               }
+           }
+
+           function CancleAll(){
+                var tbody = document.getElementById('tb');
+
+                var tr_list = tbody.children;
+                for(var i=0;i<tr_list.length;i++){
+
+                    var current_tr = tr_list[i];
+                    var checkbox = current_tr.children[0].children[0];
+                    checkbox.checked = false;
+                }
+           }
+
+           function ReverseAll(){
+                var tbody = document.getElementById('tb');
+
+                var tr_list = tbody.children;
+                for(var i=0;i<tr_list.length;i++){
+                    var current_tr = tr_list[i];
+                    var checkbox = current_tr.children[0].children[0];
+
+                    if(checkbox.checked){
+                        checkbox.checked = false;
+                    }else{
+                        checkbox.checked = true;
+                    }
+                }
+           }
+
+       </script>
+</body>
+```
+
+##### 左测菜单
+
+```
+head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+          .hide{
+            display: none;
+        }
+        .item .header{
+            height: 35px;
+            background-color: #2459a2;
+            color: white;
+            line-height: 35px;
+        }
+    </style>
+</head>
+<body>
+     <div style="height: 48px;"></div>
+     <div style="width: 300px;">
+         <div class="item">
+             <div id='i1' class="header" onclick="ChangeMenu('i1');">菜单1</div>
+             <div>
+                 <div>内容1</div>
+                 <div>内容2</div>
+                 <div>内容3</div>
+             </div>
+         </div>
+         <div class="item">
+             <div id='i2' class="header" onclick="ChangeMenu('i2');">菜单2</div>
+             <div class="hide">
+                 <div>内容1</div>
+                 <div>内容2</div>
+                 <div>内容3</div>
+             </div>
+         </div>
+         <div class="item">
+             <div id='i3' class="header" onclick="ChangeMenu('i3');">菜单3</div>
+             <div class="hide">
+                 <div>内容1</div>
+                 <div>内容2</div>
+                 <div>内容3</div>
+             </div>
+         </div>
+     </div>
+
+<script>
+    function ChangeMenu(nid){
+        var current_header = document.getElementById(nid);
+
+        var item_list = current_header.parentElement.parentElement.children;
+
+        for(var i=0;i<item_list.length;i++){
+            var current_item = item_list[i]
+            current_item.children[1].classList.add('hide');
+            }
+            current_header.nextElementSibling.classList.remove('hide');
+
+    }
+</script>
+</body>
+```
+
+#### 总结
+
+````
+css 补充
+      - position
+	  - background
+	  - hover
+	  - overflow
+	  - z-index
+	  - opacity
+	  
+	  
+JavaScript:
+    局部变量 var
+	基本数据类型
+	     数字
+		 字符串
+		 数组
+		 字典
+		 布尔值
+		 for循环
+		 
+		 if条件语句
+		    ==
+			!=
+			===
+			!==
+		    ||
+			&&
+Dom
+    招标签
+        - 直接找 $('#id') $('c1').siblings()
+        - 简介找
+    操作：
+	    innerText
+		checkbox:
+		     checked
+	    className
+		classList
+		
+	事件：
+	     <div onclick='函数(123)'><div>
+		 
+	定时器
+         setInterval('函数()',4000)
+
+    其他：
+         
+         alert()
+         console.log()
+
+实例：
+     亲临指导
+     多选
+     模态对话框
+     左侧菜单
+     返回顶部	 
+````
+
