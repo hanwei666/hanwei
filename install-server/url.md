@@ -364,3 +364,78 @@ part swap --fstype="swap" --size=8000
 dhcp
 http://www.linuxidc.com/Linux/2015-11/125040.htm
 
+
+
+## centos6.6批量安装ubuntu14.04.5
+
+```
+system-config-kickstart 
+
+http://www.linuxidc.com/Linux/2012-06/62441.htm
+http://www.mamicode.com/info-detail-1646465.html
+http://blog.sina.com.cn/s/blog_5459f60d01016rkb.html
+
+##1
+ks.cfg
+lang en_US.UTF-8
+langsupport en_US.UTF-8
+keyboard us
+mouse
+timezone Asia/Shanghai
+rootpw --disabled
+#明文密码,不能少于6位,不然会中断自动应答,问你要强密码
+#密文可以执行echo 1234567890 | openssl passwd -1 -stdin
+#user www --fullname="www" --iscrypted --password $1$YKmaOIb5$/13bs7gCjaoH./ohFT0A7/
+user www --fullname="www" --password 1234567890
+install
+url --url http://192.168.9.251/ubuntu
+bootloader --location=mbr
+zerombr yes
+#两个硬盘,分区全部清除
+#clearpart --all --initlabel  --drives=sda
+clearpart --all --initlabel  
+#size单位为M
+#part / --fstype ext4 --size 51200
+part swap --size 16000
+
+part /boot --fstype ext4 --size=300
+
+part pv.01 --grow --size=1
+volgroup VolGroup --pesize=4096 pv.01
+logvol / --fstype=ext4 --name=lv_root --vgname=VolGroup --size=580000
+network --bootproto=dhcp --device=eth0
+#静态ip
+#network --bootproto=static --ip=192.168.5.168 --netmask=255.255.255.0 --gateway=192.168.5.112 \ nameserver=221.5.88.88 --device=eth0
+firewall --disabled
+skipx
+%packages
+@openssh-server
+
+##2
+然后修改一下 vim /var/lib/tftpboot/ubuntu-installer/amd64/boot-screens/txt.cfg：
+
+default install
+label install
+        menu label ^Install
+        menu default
+        kernel ubuntu-installer/amd64/linux
+        append ks=http://10.0.0.100/ks.cfg preseed/url=http://10.0.0.100/ubuntu-server.seed vga=788 initrd=ubuntu-installer/amd64/initrd.gz --- quiet 
+label cli
+        menu label ^Command-line install
+        kernel ubuntu-installer/amd64/linux
+        append tasks=standard pkgsel/language-pack-patterns= pkgsel/install-language-support=false vga=788 initrd=ubuntu-installer/amd64/initrd.gz --- quiet
+
+
+
+##3
+cp /var/www/html/ubuntu/preseed/ubuntu-server.seed /var/www/html/
+
+然后 vim /var/www/html/ubuntu-server.seed
+
+在文件末尾添加：
+
+d-i live-installer/net-image string http://10.0.0.100/ubuntu/install/filesystem.squashfs
+```
+
+
+
