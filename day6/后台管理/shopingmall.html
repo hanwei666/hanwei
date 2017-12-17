@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hide{
+        display: none;
+        }
+        .c1 .item{
+        height:40px;
+        padding-left:80px;
+        color:#F0F0F0;
+        font-size: 15px;
+        font-weight:900;
+        line-height:40px;
+        border-bottom: 2px solid #FFCC33;
+
+        }
+        .c2{
+        padding-left:80px;
+        color:#F0F0F0;
+        font-size: 15px;
+        }
+        .menu:hover{
+        background-color: #FF9966;
+        opacity: 0.5;
+        }
+    </style>
+</head>
+<body style="margin: 0 auto;">
+     <div style="height:50px;width:980px;margin: 0 auto;">
+         <div style="float:left;line-height:50px;font-weight:900;color:#FF9900;">PHICOMM管理系统</div>
+         <div style="float:right;line-height:50px;color:#FF9900;font-size:13px;">你好，admin,欢迎登陆</div>
+         <div style="clear:both;"></div>
+     </div>
+     <div style="height: 2px;background-color: #66CCCC;"></div>
+     <div style="width:300px;height:800px;background-color:#FF9900;float:left;">
+         <div class="c1">
+             <div id="i1" class="item menu" onclick="ChangeMenu('i1');">监督状态</div>
+             <div class="hide c2">
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+             </div>
+         </div>
+         <div class="c1">
+             <div id="i2" class="item menu" onclick="ChangeMenu('i2');">日常监管</div>
+             <div class=" hide c2">
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+             </div>
+         </div>
+         <div class="c1">
+             <div id="i3" class="item menu" onclick="ChangeMenu('i3');">采购管理</div>
+             <div class=" hide c2">
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+             </div>
+         </div>
+
+     </div>
+     <script>
+         function ChangeMenu(nid){
+              var current_header = document.getElementById(nid);
+              var item_list = current_header.parentElement.parentElement.children;
+
+              for(var i=0;i<item_list.length;i++){
+                 var current_item = item_list[i]
+                 current_item.children[1].classList.add('hide');
+                 }
+              current_header.nextElementSibling.classList.remove('hide');
+
+         }
+     </script>
+</body>
+</html>
