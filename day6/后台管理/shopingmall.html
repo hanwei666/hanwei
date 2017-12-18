@@ -26,6 +26,41 @@
         background-color: #FF9966;
         opacity: 0.5;
         }
+        .c3{
+        height:40px;width:80%;
+        float:right;border-bottom:
+        2px solid #FF9900;margin-top:0px;
+        position: relative;
+        }
+        .c4{
+        border-left:solid 1px #FF9900;
+        border-right:solid 1px #FF9900;
+        border-top:solid 1px #FF9900;
+        height: 30px;width: 80px;
+        position: absolute;
+        bottom: 0px;
+        left: 25px;
+        line-height:30px;
+        text-align:center;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        <!--border-bottom-left-radius: 10px;-->
+        <!--border-bottom-right-radius: 10px;-->
+        }
+        .c5{
+        height:35px;width:77%;
+        border:1px solid #808080;
+        float:right;margin-top:20px;
+        margin-right:15px;
+        }
+        .c6{
+        height:40px;width:77%;
+        float:right;
+        margin-right:15px;
+        background-color: #DCDCDC;
+        border:1px solid #808080;
+        margin-top: 20px;
+        }
     </style>
 </head>
 <body style="margin: 0 auto;">
@@ -35,7 +70,10 @@
          <div style="clear:both;"></div>
      </div>
      <div style="height: 2px;background-color: #66CCCC;"></div>
-     <div style="width:300px;height:800px;background-color:#FF9900;float:left;">
+     <div class="c3">
+         <div class="c4">首页</div>
+     </div>
+     <div style="width:20%;height:800px;background-color:#FF9900;float:left;margin-top:0px;">
          <div class="c1">
              <div id="i1" class="item menu" onclick="ChangeMenu('i1');">监督状态</div>
              <div class="hide c2">
@@ -60,8 +98,20 @@
                  <div>> &nbsp;行业信息</div>
              </div>
          </div>
+     </div>
+     <div class="c5">
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:20px;">增加</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">修改</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">保存</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">返回</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">删除</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">刷新</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">打印</span>
+     </div>
+     <div class="c6">
 
      </div>
+
      <script>
          function ChangeMenu(nid){
               var current_header = document.getElementById(nid);
