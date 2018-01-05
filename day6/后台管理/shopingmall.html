@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hide{
+        display: none;
+        }
+        .c1 .item{
+        height:40px;
+        padding-left:80px;
+        color:#F0F0F0;
+        font-size: 15px;
+        font-weight:900;
+        line-height:40px;
+        border-bottom: 2px solid #FFCC33;
+
+        }
+        .c2{
+        padding-left:80px;
+        color:#F0F0F0;
+        font-size: 15px;
+        }
+        .menu:hover{
+        background-color: #FF9966;
+        opacity: 0.5;
+        }
+        .c3{
+        height:40px;width:80%;
+        float:right;border-bottom:
+        2px solid #FF9900;margin-top:0px;
+        position: relative;
+        }
+        .c4{
+        border-left:solid 1px #FF9900;
+        border-right:solid 1px #FF9900;
+        border-top:solid 1px #FF9900;
+        height: 30px;width: 80px;
+        position: absolute;
+        bottom: 0px;
+        left: 25px;
+        line-height:30px;
+        text-align:center;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        <!--border-bottom-left-radius: 10px;-->
+        <!--border-bottom-right-radius: 10px;-->
+        }
+        .c5{
+        height:35px;width:77%;
+        border:1px solid #808080;
+        float:right;margin-top:20px;
+        margin-right:15px;
+        }
+        .c6{
+        padding-left:2%;
+        font-size:15px;
+
+        }
+        .c7{
+        height:550px;width:77%;
+        float:right;margin-right:15px;
+        border:1px solid;
+        margin-top:20px;
+        }
+        .c8{
+        height:25px;width:50px;
+        background-color:#FF00FF;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-left-radius:2px;
+        border-bottom-right-radius:2px;
+        line-height:25px;
+        text-align:center;
+        }
+        .c9{
+        height:35px;width:77%;
+        border: 1px solid #808080;
+        margin-top: 20px;margin-right:15px;
+        float:right;
+        }
+        .c10{
+        line-height:35px;
+        font-size:12px;
+        padding-left:20px;
+        }
+        .c11{
+        font-size:12px;
+        border: 1px solid #808080;
+        height: 25px;width:50px;
+        background-color:#FF9900;
+        display:inline-block;
+        line-height:25px;
+        text-align:center;
+        float:right;
+        margin-top:4px;
+        margin-right:60px;
+        }
+        .c12{
+        font-size:12px;
+        border: 1.5px solid #FF9900;
+        height: 25px;width:50px;
+        line-height:25px;
+        text-align:center;
+        float:right;
+        margin-top:4px;
+        margin-right:5px;
+        }
+        .c13{
+        font-size:12px;
+        border: 1px solid #808080;
+        height: 23px;width:45px;
+        line-height:25px;
+        text-align:center;
+        float:right;
+        margin-top:5px;
+        margin-right:5px;
+        }
+        .c14{
+        font-size:12px;
+        border: 1px solid #808080;
+        height: 25px;width:50px;
+        line-height:25px;
+        text-align:center;
+        float:right;
+        margin-top:4px;
+        margin-right:5px;
+        }
+        .c15{
+        position:fixed;
+        left:0;top:0;
+        right:0;bottom:0;
+        background-color:black;
+        opacity:0.5;
+        z-index:9;
+        }
+        .c16{
+        width:400px;
+        height:300px;
+        border:1px solid #FF9900;
+        background-color: white;
+        position:fixed;left:50%;
+        top:50%;
+        margin-left:-180px;
+        margin-top:-100px;
+        z-index:10;
+        }
+    </style>
+</head>
+<body style="margin: 0 auto;">
+     <div style="height:50px;width:980px;margin: 0 auto;">
+         <div style="float:left;line-height:50px;font-weight:900;color:#FF9900;">PHICOMM管理系统</div>
+         <div style="float:right;line-height:50px;color:#FF9900;font-size:13px;">你好，admin,欢迎登陆</div>
+         <div style="clear:both;"></div>
+     </div>
+     <div style="height: 2px;background-color: #66CCCC;"></div>
+     <div class="c3">
+         <div class="c4">首页</div>
+     </div>
+     <div style="width:20%;height:800px;background-color:#FF9900;float:left;margin-top:0px;">
+         <div class="c1">
+             <div id="i1" class="item menu" onclick="ChangeMenu('i1');">监督状态</div>
+             <div class="hide c2">
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+             </div>
+         </div>
+         <div class="c1">
+             <div id="i2" class="item menu" onclick="ChangeMenu('i2');">日常监管</div>
+             <div class=" hide c2">
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+             </div>
+         </div>
+         <div class="c1">
+             <div id="i3" class="item menu" onclick="ChangeMenu('i3');">采购管理</div>
+             <div class=" hide c2">
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+                 <div>> &nbsp;行业信息</div>
+             </div>
+         </div>
+     </div>
+     <div class="c5">
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:20px;">全选</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">反选</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">添加</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">返回</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">删除</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">刷新</span>
+         <span style="font-size:13px;line-height:35px;display:inline-block;margin-left:10px;">打印</span>
+     </div>
+     <div class="c7">
+
+         <input style="margin-top:10px;margin-left:10px;margin-bottom:5px;"type="button" value="全选" onclick="ChooseAll();"/>
+         <input style="margin-left:10px"type="button" value="反选" onclick="ReverseAll();"/>
+         <input style="margin-left:10px"type="button" value="取消" onclick="CancleAll();"/>
+         <input style="margin-left:10px"type="button" value="添加" onclick="ShowModel();"/>
+         <table style="border-collapse:separate; border-spacing:0px 0px;width:100%;">
+             <thead>
+             <tr>
+                 <th ><input type="checkbox"/>序号</th>
+                 <th >进货单单编号</th>
+                 <th >录入员工</th>
+                 <th >进货员工</th>
+                 <th >供应商名称</th>
+                 <th >订单日期</th>
+                 <th >审核人</th>
+                 <th >创建时间</th>
+                 <th >审核状态</th>
+             </tr>
+             </thead>
+             <tbody id='tb' style="font-size:15px;">
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr><tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr><tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox"/>01</td>
+                 <td >20170852</td>
+                 <td >李四</td>
+                 <td >张三</td>
+                 <td >西安伊利食品有限公司</td>
+                 <td >2017-08-10</td>
+                 <td >李玟</td>
+                 <td >2017-12-19</td>
+                 <td ><div class="c8">待审核</div></td>
+             </tr>
+
+             </tbody>
+         </table>
+     </div>
+     <div class="c9">
+         <span class="c10">当前第1/50页，每页12条，共500条记录</span>
+         <span class="c11">跳转</span>
+         <span class="c12">1</span>
+         <span class="c13">尾页</span>
+         <span class="c14">下一页</span>
+         <span class="c14">上一页</span>
+         <span class="c13">首页</span>
+     </div>
+     <div id="i4" class="c15 hide" ></div>
+     <div id="i5" class="c16 hide">
+         <div style="height:40px;background-color:#FF9900;line-height:40px;">
+             <span style="padding-left:20px;font-size:15px;">修改密码</span>
+             <span style=padding-left:290px;font-size:20px;">x<span>
+         </div>
+         <div style="margin-left:55px;margin-top: 40px;">
+             <label for="username">旧密码：</label>
+             <input id="username" type="text" style="height:25px;width:200px;" >
+             <br/>
+             <br/>
+             <label for="pwd">新密码：</label>
+             <input id="pwd" type="text" style="height:25px;width:200px;margin:" >
+             <br/>
+             <br/>
+             <label for="pass" type="text">确认密码:</label>
+             <input id="pass" type="text" style="height:25px;width:200px;">
+         </div>
+         <span style="display:inline-block;  padding-top:30px;padding-left:140px;"><input type="button" value="确认" onclick="HideModel()"/></span>
+         <span style="display:inline-block;padding-left:40px;"><input type="button" value="取消"  onclick="HideModel()"/></span>
+
+     </div>
+
+
+     <script>
+         function ChangeMenu(nid){
+              var current_header = document.getElementById(nid);
+              var item_list = current_header.parentElement.parentElement.children;
+
+              for(var i=0;i<item_list.length;i++){
+                 var current_item = item_list[i]
+                 current_item.children[1].classList.add('hide');
+                 }
+              current_header.nextElementSibling.classList.remove('hide');
+
+         }
+
+         function ShowModel(){
+               document.getElementById('i4').classList.remove('hide');
+               document.getElementById('i5').classList.remove('hide');
+         }
+
+         function HideModel(){
+               document.getElementById('i4').classList.add('hide')
+               document.getElementById('i5').classList.add('hide')
+         }
+
+         function  ChooseAll(){
+         var tbody = document.getElementById('tb');
+         var tr_list = tbody.children;
+         for(var i=0;i<tr_list.length;i++){
+             var current_tr = tr_list[i]
+             var checkbox = current_tr.children[0].children[0];
+             checkbox.checked = true;
+           }
+         }
+
+         function  CancleAll(){
+         var tbody = document.getElementById('tb');
+         var tr_list = tbody.children;
+         for(var i=0;i<tr_list.length;i++){
+             var current_tr = tr_list[i]
+             var checkbox = current_tr.children[0].children[0];
+             checkbox.checked = false;
+           }
+         }
+
+         function ReverseAll(){
+              var tbodt = document.getElementById('tb');
+              var tr_list =tbodt.children;
+              for(var i=0;i<tr_list.length;i++){
+                  var current_tr =tr_list[i];
+                  var checkbox = current_tr.children[0].children[0]
+
+                  if(checkbox.checked){
+                      checkbox.checked = false;
+                  }else{
+                      checkbox.checked = true;
+                  }
+
+              }
+         }
+
+     </script>
+</body>
+</html>
