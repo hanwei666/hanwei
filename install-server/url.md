@@ -437,5 +437,7 @@ cp /var/www/html/ubuntu/preseed/ubuntu-server.seed /var/www/html/
 d-i live-installer/net-image string http://10.0.0.100/ubuntu/install/filesystem.squashfs
 ```
 
+### ccentos7 bond
 
+https://www.imooc.com/article/15741
 
