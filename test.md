@@ -674,4 +674,49 @@ false  冒泡模式(从下到上)
 </body>
 ```
 
-https://www.jianshu.com/p/3cb5c6f2421c/
+<https://www.jianshu.com/p/3cb5c6f2421c/>
+
+
+
+#### jquery
+
+<http://jquery.cuishifeng.cn/>
+
+```
+1.id
+
+<body>
+   <div id="i1">test</div>
+
+<script src="jquery.js"></script>
+<script>
+    $("#i1")
+</script>
+
+2.标签
+$(".c1")
+#("a")
+$("#i1,a, .c1")
+
+3.层级
+$("#i1>a") 子孙
+$("#i1 a") 儿子
+
+4.属性
+<a han="123">ttt</a>
+$('[han="123"]')
+$('[han]')
+
+$("input[type='text']")
+<input type=​"text">​
+
+```
+
+
+
+
+
+
+
+
+
