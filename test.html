@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+      <input type="button" value="全选" onclick="checkALL();" />
+      <input type="button" value="取消" onclick="cancleALL()" />
+      <input type="button" value="反选" onclick="reverseALL()" />
+
+
+      <table border="1">
+          <thead>
+               <tr>
+                   <th>选项</th>
+                   <th>IP</th>
+                   <th>PORT</th>
+               </tr>
+          </thead>
+          <tbody id="tb">
+             <tr>
+                 <td><input type="checkbox" /></td>
+                 <td>192.168.1.1</td>
+                 <td>80</td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox" /></td>
+                 <td>192.168.1.1</td>
+                 <td>80</td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox" /></td>
+                 <td>192.168.1.1</td>
+                 <td>80</td>
+             </tr>
+          </tbody>
+      </table>
+
+<script src="jquery.js"></script>
+
+<script>
+    function checkALL(){
+        $('#tb :checkbox').prop('checked',true);
+    }
+    function cancleALL(){
+        $('#tb :checkbox').prop('checked',false);
+    }
+    function reverseALL(){
+        $(':checkbox').each(function(k){
+            //this，代指当循环的每一个元素
+            // if(this.checked){
+            //     this.checked = false;
+            // }else{
+            //     this.checked = true;
+            // }
+
+            // if($(this).prop('checked')){
+            //     $(this).prop('checked',false);
+            // }else{
+            //     $(this).prop('checked',true);
+            // }
+
+            var v = $(this).prop('checked')?false:true;
+            $(this).prop('checked',v);
+
+            })
+    }
+</script>
+
+</body>
+</html>

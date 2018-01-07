@@ -682,6 +682,8 @@ false  冒泡模式(从下到上)
 
 <http://jquery.cuishifeng.cn/>
 
+<http://www.oyksoft.com/soft/12273.html>
+
 ```
 1.id
 
@@ -708,11 +710,94 @@ $('[han="123"]')
 $('[han]')
 
 $("input[type='text']")
-<input type=​"text">​
-
+<input type="text">
 ```
 
+### 多选反选示例
 
+- $('#tb :checkbox').prop('checked');              获取值
+
+- $('#tb :checkbox').prop('checked',true);      设置值
+
+- jquery方法内置循环：$('#tb:checkbox').xxx
+
+- $('#tb:checkbox').each(function(k){
+
+  ​        k当前索引
+
+  ​        this,DOM,当前循环的元素 $(this)
+
+     })
+
+  var v = 条件 ？真值：假值
+
+```
+<body>
+
+      <input type="button" value="全选" onclick="checkALL();" />
+      <input type="button" value="取消" onclick="cancleALL()" />
+      <input type="button" value="反选" onclick="reverseALL()" />
+
+
+      <table border="1">
+          <thead>
+               <tr>
+                   <th>选项</th>
+                   <th>IP</th>
+                   <th>PORT</th>
+               </tr>
+          </thead>
+          <tbody id="tb">
+             <tr>
+                 <td><input type="checkbox" /></td>
+                 <td>192.168.1.1</td>
+                 <td>80</td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox" /></td>
+                 <td>192.168.1.1</td>
+                 <td>80</td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox" /></td>
+                 <td>192.168.1.1</td>
+                 <td>80</td>
+             </tr>
+          </tbody>
+      </table>
+
+<script src="jquery.js"></script>
+
+<script>
+    function checkALL(){
+        $('#tb :checkbox').prop('checked',true);
+    }
+    function cancleALL(){
+        $('#tb :checkbox').prop('checked',false);
+    }
+    function reverseALL(){
+        $(':checkbox').each(function(k){
+            //this，代指当循环的每一个元素
+            // if(this.checked){
+            //     this.checked = false;
+            // }else{
+            //     this.checked = true;
+            // }
+
+            // if($(this).prop('checked')){
+            //     $(this).prop('checked',false);
+            // }else{
+            //     $(this).prop('checked',true);
+            // }
+
+            var v = $(this).prop('checked')?false:true;
+            $(this).prop('checked',v);
+
+            })
+    }
+</script>
+
+```
 
 
 
