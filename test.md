@@ -799,6 +799,76 @@ $("input[type='text']")
 
 ```
 
+### 筛选器
+
+```
+$(this).next()         下一个
+$(this).prev()         上一个
+$(this).parent()       父
+$('#i1').children()    孩子
+$('#i1').siblings()    兄弟
+$('#i1').find('#i1')   子子孙孙中查找
+
+$('#i1').pervALL()         查找所有上一个
+$('#i1').prevUntil('#ii1') 查找上一个到ii1 
+
+$('#i1').parents()         查找所有祖宗
+$('#i1').parentsUntil(ii1)   查找所有祖宗到ii1
+```
+
+
+
+
+
+### 左侧菜单示例
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .header{
+        background-color: black;
+        color: wheat;
+    }
+       .content{
+        min-height: 50px;
+    }
+        .hide{
+            display: none
+        }
+    </style>
+
+
+</head>
+<body>
+    <div style="height:400px;width:200px;border: 1px solid #dddddd">
+        <div class="item">
+            <div class="header">标题一</div>
+            <div class="content">内容</div>
+        </div>
+        <div class="item">
+            <div class="header">标题二</div>
+            <div class="content hide">内容</div>
+        </div>
+        <div class="item">
+            <div class="header">标题三</div>
+            <div class="content hide">内容</div>
+        </div>
+    </div>
+    <script src="jquery.js"></script>
+<script>
+    #绑定事件
+    $('.header').click(function(){
+        // $(this).next().removeClass('hide');
+        // $(this).parent().siblings().find('.content').addClass('hide');
+
+#链接式编程        $(this).next().removeClass('hide').parent().siblings().find('.content').addClass('hide');
+    })
+</script>
+</body>
+```
+
 
 
 
