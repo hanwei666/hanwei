@@ -674,4 +674,204 @@ false  冒泡模式(从下到上)
 </body>
 ```
 
-https://www.jianshu.com/p/3cb5c6f2421c/
+<https://www.jianshu.com/p/3cb5c6f2421c/>
+
+
+
+#### jquery
+
+<http://jquery.cuishifeng.cn/>
+
+<http://www.oyksoft.com/soft/12273.html>
+
+```
+1.id
+
+<body>
+   <div id="i1">test</div>
+
+<script src="jquery.js"></script>
+<script>
+    $("#i1")
+</script>
+
+2.标签
+$(".c1")
+#("a")
+$("#i1,a, .c1")
+
+3.层级
+$("#i1>a") 子孙
+$("#i1 a") 儿子
+
+4.属性
+<a han="123">ttt</a>
+$('[han="123"]')
+$('[han]')
+
+$("input[type='text']")
+<input type="text">
+```
+
+### 多选反选示例
+
+- $('#tb :checkbox').prop('checked');              获取值
+
+- $('#tb :checkbox').prop('checked',true);      设置值
+
+- jquery方法内置循环：$('#tb:checkbox').xxx
+
+- $('#tb:checkbox').each(function(k){
+
+  ​        k当前索引
+
+  ​        this,DOM,当前循环的元素 $(this)
+
+     })
+
+  var v = 条件 ？真值：假值
+
+```
+<body>
+
+      <input type="button" value="全选" onclick="checkALL();" />
+      <input type="button" value="取消" onclick="cancleALL()" />
+      <input type="button" value="反选" onclick="reverseALL()" />
+
+
+      <table border="1">
+          <thead>
+               <tr>
+                   <th>选项</th>
+                   <th>IP</th>
+                   <th>PORT</th>
+               </tr>
+          </thead>
+          <tbody id="tb">
+             <tr>
+                 <td><input type="checkbox" /></td>
+                 <td>192.168.1.1</td>
+                 <td>80</td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox" /></td>
+                 <td>192.168.1.1</td>
+                 <td>80</td>
+             </tr>
+             <tr>
+                 <td><input type="checkbox" /></td>
+                 <td>192.168.1.1</td>
+                 <td>80</td>
+             </tr>
+          </tbody>
+      </table>
+
+<script src="jquery.js"></script>
+
+<script>
+    function checkALL(){
+        $('#tb :checkbox').prop('checked',true);
+    }
+    function cancleALL(){
+        $('#tb :checkbox').prop('checked',false);
+    }
+    function reverseALL(){
+        $(':checkbox').each(function(k){
+            //this，代指当循环的每一个元素
+            // if(this.checked){
+            //     this.checked = false;
+            // }else{
+            //     this.checked = true;
+            // }
+
+            // if($(this).prop('checked')){
+            //     $(this).prop('checked',false);
+            // }else{
+            //     $(this).prop('checked',true);
+            // }
+
+            var v = $(this).prop('checked')?false:true;
+            $(this).prop('checked',v);
+
+            })
+    }
+</script>
+
+```
+
+### 筛选器
+
+```
+$(this).next()         下一个
+$(this).prev()         上一个
+$(this).parent()       父
+$('#i1').children()    孩子
+$('#i1').siblings()    兄弟
+$('#i1').find('#i1')   子子孙孙中查找
+
+$('#i1').pervALL()         查找所有上一个
+$('#i1').prevUntil('#ii1') 查找上一个到ii1 
+
+$('#i1').parents()         查找所有祖宗
+$('#i1').parentsUntil(ii1)   查找所有祖宗到ii1
+```
+
+
+
+
+
+### 左侧菜单示例
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .header{
+        background-color: black;
+        color: wheat;
+    }
+       .content{
+        min-height: 50px;
+    }
+        .hide{
+            display: none
+        }
+    </style>
+
+
+</head>
+<body>
+    <div style="height:400px;width:200px;border: 1px solid #dddddd">
+        <div class="item">
+            <div class="header">标题一</div>
+            <div class="content">内容</div>
+        </div>
+        <div class="item">
+            <div class="header">标题二</div>
+            <div class="content hide">内容</div>
+        </div>
+        <div class="item">
+            <div class="header">标题三</div>
+            <div class="content hide">内容</div>
+        </div>
+    </div>
+    <script src="jquery.js"></script>
+<script>
+    #绑定事件
+    $('.header').click(function(){
+        // $(this).next().removeClass('hide');
+        // $(this).parent().siblings().find('.content').addClass('hide');
+
+#链接式编程        $(this).next().removeClass('hide').parent().siblings().find('.content').addClass('hide');
+    })
+</script>
+</body>
+```
+
+
+
+
+
+
+

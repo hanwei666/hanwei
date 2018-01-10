@@ -2,6 +2,8 @@
 
 https://www.imooc.com/article/15741
 
+http://m.blog.csdn.net/hnhuangyiyang/article/details/52448996
+
 - /etc/sysconfig/network-scripts/route-bond0 静态路由示例
 
   ```
