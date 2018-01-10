@@ -441,3 +441,54 @@ d-i live-installer/net-image string http://10.0.0.100/ubuntu/install/filesystem.
 
 https://www.imooc.com/article/15741
 
+### ubuntu14.04 bond
+
+<https://www.cnblogs.com/shoufengwei/p/6812519.html>
+
+```
+#!/bin/bash
+
+HOST_IP=`ifconfig |grep "Bcast" | awk -F: '{print $2}' |awk '{print $1}'`
+
+
+echo "1qazXSW@" |sudo -S touch /etc/sudoers.d/nopasswd4sudo
+ 
+echo "1qazXSW@" |sudo -S echo "n ALL=(ALL) NOPASSWD : ALL" >>/etc/sudoers.d/nopasswd4sudo
+
+echo "1qazXSW@" |sudo -S echo "bonding mode=1 miimon=100" >>/etc/modules
+
+sudo ifconfig p3p2 up 
+echo "1qazXSW@" |sudo -S mv /etc/network/interfaces /etc/network/interfaces.bak 
+
+dpkg -i /home/n/ifenslave/ifenslave_2.4ubuntu1.2_all.deb 
+
+sudo touch /etc/network/interfaces
+
+sudo cat >> /etc/network/interfaces <<EOF
+auto bond0
+iface bond0 inet static
+      address $HOST_IP
+      netmask 255.255.255.0
+      gateway 192.168.20.254
+      dns-nameservers 202.96.209.133
+      post-up ifenslave bond0 p3p1 p3p2
+      pre-down ifenslave -d bond0 p3p1 p3p2
+EOF
+
+sudo reboot 
+```
+
+
+
+## ubuntu16.04 bond
+
+<https://www.cnblogs.com/shoufengwei/p/6827775.html>
+
+## pfSense
+
+<https://doc.pfsense.org/index.php/Installing_pfSense#VLANS>
+
+<https://wenku.baidu.com/view/0383bcaa6bec0975f565e205.html?qq-pf-to=pcqq.c2c>
+
+<http://blog.51cto.com/zht880301/1662812>
+
