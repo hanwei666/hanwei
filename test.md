@@ -869,7 +869,231 @@ $('#i1').parentsUntil(ii1)   查找所有祖宗到ii1
 </body>
 ```
 
+### 示例 添加 编辑 删除
 
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hide{
+            display: none;
+        }
+        .modal{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 400px;
+            margin-left: -250px;
+            margin-top: -250px;
+            background-color: #eeeeee;
+            z-index: 10;
+        }
+        .shadow{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.6;
+            background-color: black;
+            z-index: 9;
+        }
+    </style>
+</head>
+<body>
+    <a onclick="addElement();">添加</a>
+
+    <table border="1" id="tb">
+        <tr>
+            <td target="hostname">192.168.1.1</td>
+            <td target="port">80</td>
+            <td target="ip">111</td>
+            <td>
+                <a class="edit">编辑</a> | <a class="del">删除</a>
+            </td>
+        </tr>
+        <tr>
+            <td target="hostname">192.168.1.2</td>
+            <td target="port">80</td>
+            <td target="ip">211</td>
+            <td>
+                <a class="edit">编辑</a> | <a class="del">删除</a>
+            </td>
+        </tr>
+        <tr>
+            <td target="hostname">192.168.1.3</td>
+            <td target="port">80</td>
+            <td target="ip">211</td>
+            <td>
+                <a class="edit">编辑</a> | <a class="del">删除</a>
+            </td>
+        </tr>
+    </table>
+
+    <div class="modal hide">
+        <div>
+            <input name="hostname" type="text" />
+            <input name="port" type="text" />
+            <input name="ip" type="text" />
+        </div>
+
+        <div>
+            <input type="button" value="取消" onclick="cancelModal();"/>
+            <input type="button" value="确定" onclick="confirmModal();"/>
+        </div>
+    </div>
+
+    <div class="shadow hide"></div>
+
+    <script src="jquery.js"></script>
+    <script>
+        $('.del').click(function(){
+            $(this).parent().parent().remove();
+        });
+
+        function confirmModal() {
+            var tr = document.createElement('tr');
+            var td1 = document.createElement('td');
+            td1.innerHTML = "22.22.22.22";
+            var td2 = document.createElement('td');
+            td2.innerHTML = "8001";
+
+            $(tr).append(td1);
+            $(tr).append(td2);
+
+            $('#tb').append(tr);
+
+            $(".modal,.shadow").addClass('hide');
+                $('.modal input[type="text"]').each(function (){
+                    var temp = ""
+                })
+        }
+
+        function addElement(){
+            $(".modal,.shadow").removeClass('hide');
+        }
+        function cancelModal(){
+            $(".modal,.shadow").addClass('hide');
+            $('.modal input[type="text"]').val("");
+        }
+
+        $('.edit').click(function(){
+            $(".modal,.shadow").removeClass('hide');
+            var tds = $(this).parent().prevAll();
+            tds.each(function(){
+                var n = $(this).attr('target');
+                // 获取td中的内容
+                var text = $(this).text();
+                var a1 = '.modal input[name="';
+                var a2 = '"]';
+                var temp = a1 + n + a2;
+                $(temp).val(text);
+            });
+
+            // var port = $(tds[0]).text();
+            // var host = $(tds[1]).text();
+            //
+            // $('.modal input[name="hostname"]').val(host);
+            // $('.modal input[name="port"]').val(port);
+             // 循环获取tds中内容
+            // 获取 <td>内容</td> 获取中间的内容
+            // 赋值给input标签中的value
+        });
+    </script>
+</body>
+</html>
+```
+
+#### 开关示例
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hide{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <input type="checkbox" id="i2" />
+    <input id="i1" type="button" value="开关" />
+    <div class="c1 hide">test</div>
+
+    <script src="jquery.js"></script>
+    <script>
+        $('#i1').click(function(){
+            // if($('.c1').hasClass('hide')){
+            //     $('.c1').removeClass('hide');
+            // }else{
+            //     $('.c1').addClass('hide');
+            // }
+           $('.c1').toggleClass('hide');
+        })
+    </script>
+</body>
+</html>
+```
+
+#### table 切换菜单
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hide{
+            display: none;
+        }
+        .menu{
+            height: 38px;
+            background-color: #eeeeee;
+            line-height: 38px;
+        }
+        .active{
+            background-color: brown;
+        }
+        .menu .menu-item{
+            float: left;
+            border-right: 1px solid red;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .content{
+            min-height: 100px;
+            border: 1px solid #eeeeee;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 700px;margin:0 auto;">
+        <div class="menu">
+            <div class="menu-item active" a="1">菜单一</div>
+            <div class="menu-item " a="2">菜单二</div>
+            <div class="menu-item " a="3">菜单三</div>
+        </div>
+        <div class="content">
+            <div b="1">内容一</div>
+            <div class='hide' b="2">内容二</div>
+            <div class='hide' b="3">内容三</div>
+        </div>
+    </div>
+    <script src="jquery.js"></script>
+    <script>
+        $('.menu-item').click(function(){
+            $(this).addClass('active').siblings().removeClass('active');
+            var target = $(this).attr('a');
+            $('.content').children("[b='"+ target+"']").removeClass('hide').siblings().addClass('hide');
+        })
+    </script>
+</body>
+</html>
+```
 
 
 
