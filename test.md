@@ -1,3 +1,5 @@
+
+
 ### 布局1
 
 ```
@@ -1093,6 +1095,190 @@ $('#i1').parentsUntil(ii1)   查找所有祖宗到ii1
     </script>
 </body>
 </html>
+```
+
+2
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hide{
+            display: none;
+        }
+        .menu{
+            height: 38px;
+            background-color: #eeeeee;
+            line-height: 38px;
+        }
+        .active{
+            background-color: brown;
+        }
+        .menu .menu-item{
+            float: left;
+            border-right: 1px solid red;
+            padding: 0 5px;
+            cursor: pointer;
+        }
+        .content{
+            min-height: 100px;
+            border: 1px solid #eeeeee;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 700px;margin:0 auto;">
+        <div class="menu">
+            <div class="menu-item active" >菜单一</div>
+            <div class="menu-item " >菜单二</div>
+            <div class="menu-item ">菜单三</div>
+        </div>
+        <div class="content">
+            <div >内容一</div>
+            <div class='hide' >内容二</div>
+            <div class='hide'>内容三</div>
+        </div>
+    </div>
+    <script src="jquery.js"></script>
+    <script>
+        $('.menu-item').click(function(){
+            $(this).addClass('active').siblings().removeClass('active');
+            $('.content').children().eq($(this).index()).removeClass('hide').siblings().addClass('hide');
+
+        })
+    </script>
+</body>
+</html>
+```
+
+
+
+#### 添加 删除 复制
+
+```
+head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input id="t1" type="text"/>
+    <input id="a1" type="button" value="添加" />
+    <input id="a2" type="button" value="删除" />
+    <input id="a3" type="button" value="复制" />
+
+    <ul id="u1">
+        <li>1</li>
+        <li>2</li>
+    </ul>
+<script src="jquery.js"></script>
+    <script>
+        $('#a1').click(function(){
+            var v = $('#t1').val();
+            var temp = "<li>" + v + "</li>";
+            // $('#u1').append(temp);
+            // $('#u1').after(temp); 添加父下
+            // $('#u1').before(temp);添加父上
+        });
+
+            $('#a2').click(function(){
+                var index = $('#t1').val();
+                // $('#u1 li').eq(index).remove(); 删除
+               // $('#u1 li').eq(index).empty();    只删除内容
+
+            })；
+            //克隆
+            $('#a3').click(function(){
+                var index = $('#t1').val();
+                var v = $('#u1 li').eq(index).clone();
+                $('#u1').append(v);
+            })
+            // $('ul li').click(function(){
+            //     var v = $(this).text();
+            //     alert(v);
+            // })
+            //
+            // $('ul li').bind('click',function(){
+            //     var v = $(this).text();
+            //     alert(v);
+            // })
+            //
+            // $('ul li').on('click',function(){
+            //     var v = $(this).text();
+            //     alert(v);
+            // })
+            // $('ul').delegate('li','click',function(){
+            //     var v = $(this).text();
+            //     alert(v);
+            // })
+    </script>
+</body>
+</html>
+```
+
+##### 点赞示例
+
+```
+</head>
+    <div class="container">
+        <div class="item">
+            <span>赞</span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="item">
+            <span>赞</span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="item">
+            <span>赞</span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="item">
+            <span>赞</span>
+        </div>
+    </div>
+    <script src="jquery.js"></script>
+    <script>
+        $('.item').click(function(){
+            AddFavor(this);
+
+        });
+        function AddFavor(self){
+            var fontSize = 15;
+            var top = 0;
+            var right = 0;
+            var opacity = 1;
+
+            var tag = document.createElement('span');
+            $(tag).text('+1');
+            $(tag).css('color','green');
+            $(tag).css('position','absolute');
+            $(tag).css('fontSize',fontSize + 'px');
+            $(tag).css('right',right + "px");
+            $(tag).css('opacity',opacity);
+            $(self).append(tag);
+
+            var obj = setInterval(function(){
+                fontSize = fontSize + 10;
+                top = top - 10;
+                right = right - 10;
+                opacity = opacity - 0.1;
+
+                $(tag).css('fontSize',fontSize + "px");
+                $(tag).css('right',right + 'px');
+                $(tag).css('top',top + 'px');
+                $(tag).css('opacity',opacity);
+                if(opacity < 0 ){
+                    clearInterval(obj);
+                    $(tag).remove();
+                }
+            },40);
+        }
+    </script>
+<body>
 ```
 
 
