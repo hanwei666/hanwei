@@ -546,7 +546,6 @@ location.href
 location.href = ""  重定向 跳转
 location.reload()   页面刷新
 location.href = loaction.href    
-
 ```
 
 清楚定时
@@ -699,7 +698,7 @@ false  冒泡模式(从下到上)
 
 2.标签
 $(".c1")
-#("a")
+$("a")
 $("#i1,a, .c1")
 
 3.层级
@@ -798,7 +797,6 @@ $("input[type='text']")
             })
     }
 </script>
-
 ```
 
 ### 筛选器
@@ -1063,61 +1061,6 @@ $('#i1').parentsUntil(ii1)   查找所有祖宗到ii1
         .menu .menu-item{
             float: left;
             border-right: 1px solid red;
-            padding: 5px;
-            cursor: pointer;
-        }
-        .content{
-            min-height: 100px;
-            border: 1px solid #eeeeee;
-        }
-    </style>
-</head>
-<body>
-    <div style="width: 700px;margin:0 auto;">
-        <div class="menu">
-            <div class="menu-item active" a="1">菜单一</div>
-            <div class="menu-item " a="2">菜单二</div>
-            <div class="menu-item " a="3">菜单三</div>
-        </div>
-        <div class="content">
-            <div b="1">内容一</div>
-            <div class='hide' b="2">内容二</div>
-            <div class='hide' b="3">内容三</div>
-        </div>
-    </div>
-    <script src="jquery.js"></script>
-    <script>
-        $('.menu-item').click(function(){
-            $(this).addClass('active').siblings().removeClass('active');
-            var target = $(this).attr('a');
-            $('.content').children("[b='"+ target+"']").removeClass('hide').siblings().addClass('hide');
-        })
-    </script>
-</body>
-</html>
-```
-
-2
-
-```
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        .hide{
-            display: none;
-        }
-        .menu{
-            height: 38px;
-            background-color: #eeeeee;
-            line-height: 38px;
-        }
-        .active{
-            background-color: brown;
-        }
-        .menu .menu-item{
-            float: left;
-            border-right: 1px solid red;
             padding: 0 5px;
             cursor: pointer;
         }
@@ -1157,7 +1100,7 @@ $('#i1').parentsUntil(ii1)   查找所有祖宗到ii1
 #### 添加 删除 复制
 
 ```
-head>
+<head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -1280,6 +1223,149 @@ head>
     </script>
 <body>
 ```
+
+#### 示例
+
+return true 执行后面  return false 不执行后面的
+
+```
+<body>
+    <a onclick="return ClickOn()" href="http://www.oldboyedu.com">go1</a>
+    
+    <a id="li" href="http://oldboyedu.com">go2</a>
+    <script src="jquery.js"></script>
+    <script>
+        function ClickOn(){
+            alert(123);
+            return true;
+        }
+        $('#li').click(function(){
+            alert(456);
+            return false;
+        })
+    </script>
+</body>
+```
+
+
+
+当页面所有元素加载完毕后，执行
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <form id="f1" action="s5.html" method="POST">
+        <div><input name="n1" tex ="用户名" type="text"/></div>
+        <div><input name="n2" tex="密码" type="password"/></div>
+        <div><input name="n3" tex ="邮箱" type="text"/></div>
+        <div><input name="n4" tex ="端口" type="text"/></div>
+        <div><input name="n5" tex ="IP" type="text"/></div>
+
+        <input type="submit" value="提交"/>
+        <img src="...">
+    </form>
+    <script src="jquery.js"></script>
+    <script>
+        //当页面框加载完毕后，自动执行
+        // $(function(){
+        //     $.Login('#fl')
+        // });
+
+        $(function(){
+            //当页面所有元素加载完毕后，执行
+            $(':submit').click(function(){
+                $('.error').remove();
+                var flag = true;
+                $('#f1').find('input[type="text"],input[type="password"]').each(function(){
+                    var v = $(this).val();
+                    var n = $(this).attr('tex');
+                    if(v.length <=0){
+                        flag = false;
+                        var tag = document.createElement('span');
+                        tag.className = "error";
+                        tag.innerHTML = n + "必填";
+                        $(this).after(tag);
+                    }
+                });
+                return flag;
+            });
+        });
+
+        // $(':submit').click(function(){
+        //     var v = $(this).prev().val();
+        //     if(v.length > 0){
+        //         return true;
+        //     }else{
+        //         alert('请输入内容');
+        //         return false
+        //     }
+        // })
+    </script>
+</body>
+```
+
+#### jquery 扩展
+
+```
+<body>
+   <script src="jquery.js"></script>
+   <script src="plugin1.js"></script>
+    <script>
+        var v = $.wangsen();
+        alert(v);
+        $.ajax()
+        $.fn.extend({
+            "hanyang": function(){
+                return 'db';
+            }
+        });
+        var v = $('#i1').hanyang();
+        alert(v);
+
+        $.extend({
+            'wangsen': function(){
+                return 'sb';
+            }
+        });
+        var v = $.wangsen();
+        alert(v);
+    </script>
+```
+
+plugin1
+
+```
+ststus = 1;
+
+$.extend({
+    'wangsen': function(){
+        return 'sb';
+    }
+});
+```
+
+plugin2
+
+```
+(function (arg){
+    var status = 1;
+    arg.extend({
+        'wangsen': function(){
+            return 'sb';
+        }
+    });
+})(jQuery);
+```
+
+
 
 
 
