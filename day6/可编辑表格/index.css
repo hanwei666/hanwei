@@ -1,0 +1,38 @@
+.c1{
+    margin-top: 30px;
+    margin-left: 30px;
+}
+.c2{
+    margin-left: 5px;
+}
+.c3{
+    margin-left: 5px;
+}
+.edit{
+    margin-left:5px;
+    width: 120px;
+    height: 30px;
+    border: 1px solid #696969;
+    background-color: #696969;
+    display: inline-block;
+    line-height:30px;
+    text-align:center;
+    color: #F0F8FF;
+}
+.hover{
+    background-color:#FF9900;
+}
+
+table{
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 500px;
+        }
+        table th {
+            width: 25%;
+            background-color: #A3BAE9;
+        }
+        table td {
+            width: 25%;
+            align-items: center;
+        }
