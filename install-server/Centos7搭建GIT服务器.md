@@ -103,6 +103,7 @@ ssh-keygen -rsa
 
 ```
 git clone git@192.168.80.100:/srv/sample.git 
+git clone ssh://git@218.245.64.253:6789/srv/test.git
 git push origin master 
 
 
