@@ -11,3 +11,15 @@ http://www.51testing.com/html/04/n-3039704.html
 
 ````
 
+#### centos7搭建mail
+
+```
+https://www.jianshu.com/p/4c2b1f7f3b0d
+```
+
+#### centos7升级最新内核
+
+```
+https://linux.cn/article-8310-1.html
+```
+
