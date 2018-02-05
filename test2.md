@@ -166,7 +166,7 @@ MVC
     数据库   模板文件 业务处理
     
 MTV 
-	Model    View    Controller
+	Model    temolates    Controller
     数据库    模板文件 业务处理
     
 ```
@@ -228,4 +228,52 @@ urlpatterns = [
     path('h.html/', views.home),
 ]
 ```
+
+APP文件
+
+```
+app:
+	migrations    数据修改表结构记录文件
+	admin         Django为我们提供的后台管理
+	apps          配置当前app
+	models        ORM，写指定的类 通过命令可以创建数据库结构
+	tests         单元测试
+	views         业务代码
+```
+
+URL调用
+
+```
+urls.py
+
+from django.contrib import admin
+from django.urls import path
+from cmdb import views
+from django.conf.urls import url
+urlpatterns = [
+    # path('admin/', admin.site.urls),
+    # path('h.html/', views.home),
+    url(r'login',views.login),
+]
+
+cmdb/views.py
+
+from django.shortcuts import HttpResponse
+from django.shortcuts import render
+
+def login(request):
+    return render(request,'login.html')
+
+templates/login.html
+
+from django.shortcuts import HttpResponse
+from django.shortcuts import render
+
+def login(request):
+    return render(request,'login.html')
+
+
+```
+
+
 
