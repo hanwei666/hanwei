@@ -23,3 +23,15 @@ https://www.jianshu.com/p/4c2b1f7f3b0d
 https://linux.cn/article-8310-1.html
 ```
 
+#### firewalld
+
+```
+https://www.cnblogs.com/hubing/p/6058932.html
+```
+
+#### centos7搭建lamp
+
+```
+https://www.cnblogs.com/me80/p/7218883.html
+```
+
