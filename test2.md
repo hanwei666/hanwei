@@ -275,5 +275,215 @@ def login(request):
 
 ```
 
+Django静态文件以及模板文件顺序
 
+1.urls.py
+
+```
+from django.contrib import admin
+from django.urls import path
+from cmdb import views
+from django.conf.urls import url
+urlpatterns = [
+    # path('admin/', admin.site.urls),
+    # path('h.html/', views.home),
+    url(r'login',views.login),
+]
+```
+
+2.cmdb/views.py
+
+```
+from django.shortcuts import HttpResponse
+from django.shortcuts import render
+
+def login(request):
+    return render(request,'login.html')
+```
+
+3.templates/login.html
+
+```
+ <title>Title</title>
+    <link rel="stylesheet" href="/static/commons.css">
+    <style>
+        label{
+            width: 80px;
+            text-align: right;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <form action="/login" method="post">
+        <p>
+            <label for="username">用户名</label>
+            <input id="username" type="text"/>
+        </p>
+        <p>
+            <label for="password">密码:</label>
+            <input id="password" type="text" />
+            <input type="submit" value="提交" />
+        </p>
+    </form>
+    <script src="/static/jquery.js"></script>
+</body>
+```
+
+4.settings.py
+
+```
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')]    ####
+        ,
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
+
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,'static'),
+)
+
+```
+
+#### django验证用户密码是否正确
+
+1.settings.py
+
+```
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',   注释掉
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+```
+
+2.templates/login.html
+
+```
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/commons.css">
+    <style>
+        label{
+            width: 80px;
+            text-align: right;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <form action="/login" method="post">
+        <p>
+            <label for="username">用户名</label>
+            <input id="username" name="user" type="text"/>
+        </p>
+        <p>
+            <label for="password">密码:</label>
+            <input id="password" name="pwd" type="password" />
+            <input type="submit" value="提交" />
+            <span style="color: red;">{{ error_msg }}</span>  ####
+        </p>
+    </form>
+    <script src="/static/jquery.js"></script>
+</body>
+```
+
+3.cmdb/views.py
+
+```
+def login(request):
+
+    error_msg = ""
+    if request.method == "POST":
+        user = request.POST.get('user',None)
+        pwd = request.POST.get('pwd',None)
+        if user == "root" and pwd == "123":
+            return redirect('http://www.baidu.com')
+        else:
+            error_msg = "用户名或密码错误"
+
+    return render(request,'login.html', {'error_msg': error_msg})
+
+```
+
+#### input添加示例
+
+1.urls.py
+
+```
+urlpatterns = [
+    url(r'home',views.home),
+```
+
+2.templates/home.html
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="margin: 0">
+    <div style="height: 48px;background-color: #dddddd"></div>
+    <div>
+        <form action="/home" method="post">
+            <input type="text" name="username" placeholder="用户名"/>
+            <input type="text" name="email" placeholder="邮箱"/>
+            <input type="text" name="gender" placeholder="性别"/>
+            <input type="submit" value="添加"/>
+        </form>
+    </div>
+    <div>
+        <table>
+            {% for row in user_list %}
+                <tr>
+                    <td>{{ row.username }}</td>
+                    <td>{{ row.gender }}</td>
+                    <td>{{ row.email }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
+```
+
+3.cmdb/views.py
+
+```
+USER_LIST = [
+    {'username': 'zhang','email': 'zhang@163.com','gender': 'man'},
+    {'username': 'li','email': 'li@163.com','gender': 'man'},
+    {'username': 'wang','email': 'wang@163.com','gender': 'man'}
+]
+def home(request):
+    if request.method == "POST":
+
+        u = request.POST.get('username')
+        e = request.POST.get('email')
+        g = request.POST.get('gender')
+        temp = {'username': u, 'email': e,'gender': g}
+        USER_LIST.append(temp)
+    return render(request,'home.html',{'user_list': USER_LIST})
+```
 
