@@ -21,4 +21,5 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('h.html/', views.home),
     url(r'login',views.login),
+    url(r'home',views.home),
 ]
