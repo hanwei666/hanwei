@@ -42,3 +42,9 @@ http://www.360doc.com/content/16/0221/16/30829933_536212554.shtml
 http://blog.51cto.com/zht880301/1662812
 ```
 
+#### centos7.2   keepalived + nginx
+
+```
+https://www.cnblogs.com/GreedyL/p/7519969.html
+```
+
