@@ -48,3 +48,9 @@ http://blog.51cto.com/zht880301/1662812
 https://www.cnblogs.com/GreedyL/p/7519969.html
 ```
 
+#### 使用ssh-copy-id批量拷贝公钥到远程主机
+
+```
+https://segmentfault.com/a/1190000009832597
+```
+
