@@ -120,6 +120,16 @@ http://www.cssmoban.com/tags.asp?page=3&n=Bootstrap
 <link rel="stylesheet" href="bootstrap-3.3.0-dist/bootstrap.css"/>
 ```
 
+#### 图标 字体
+
+```
+@font-face
+```
+
+
+
+
+
 ##### 轮播图
 
 - 1下载bxslider插件
@@ -179,7 +189,7 @@ MTV
 2.设置环境变量
 D:\Programs\Python\Python35\Scripts
 
-3.创建文件夹
+3.创建django
 django-admin startproject mysite
 
 4.启动django 
@@ -190,8 +200,8 @@ python manage.py runserver 127.0.0.1:8001
 
 ```
 mysite
-      - mysite     
-      - init       #对整个程序进行配置
+      - mysite     #对整个程序进行配置
+      - init       
       - settings   #配置文件
       - url        #URL对应关系
       - wsgi       #遵循WSIG规范， uwsgi + nginx 
@@ -266,11 +276,7 @@ def login(request):
 
 templates/login.html
 
-from django.shortcuts import HttpResponse
-from django.shortcuts import render
 
-def login(request):
-    return render(request,'login.html')
 
 
 ```
