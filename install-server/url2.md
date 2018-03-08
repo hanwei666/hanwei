@@ -60,3 +60,11 @@ https://segmentfault.com/a/1190000009832597
 https://www.linuxidc.com/Linux/2015-07/119458.htm
 ```
 
+#### 网卡限速
+
+```
+http://blog.csdn.net/saga_gallon/article/details/76686838
+测试网速
+https://baijiahao.baidu.com/s?id=1581018090928650336&wfr=spider&for=pc
+```
+
