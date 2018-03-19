@@ -493,3 +493,177 @@ def home(request):
     return render(request,'home.html',{'user_list': USER_LIST})
 ```
 
+#### 内容整理
+
+1.创建Django工程
+
+```
+django-admin startproject 工程名
+```
+
+2.创建APP
+
+```
+cd 工程名
+python manage.py startapp cmdb
+```
+
+3.静态文件
+
+```
+project.setting.py
+
+STATICILES_DIRS = (
+	os.path.join(BASE_DIR,""static),
+)
+
+```
+
+4.模板路径
+
+```
+DIRS ==> [os.path.join(BASE_DIR,'templates'),]
+```
+
+5.settings中
+
+```
+middlerware
+	#注释 csrf
+```
+
+6.定义路由规则
+
+```
+url.py
+	"login" --> 函数名
+```
+
+7.定义视图函数
+
+app下views.py
+
+```
+def func(request):
+	#request.method  GET / POST
+	#http://127.0.0.1:8009/home?nid=123&name=alex
+	
+	#request.POST.get('',None)
+	
+	#return HttpResponse(“字符串”)
+	#return render(request,"HTML模板的路径")
+	#return redirect('/只能填URL')
+	
+
+```
+
+
+
+8.模板渲染
+
+​	特殊的模板语言
+
+​	--- {{变量名}}
+
+```
+def  func(request):
+	 return render(request, "index.html",{'current_user':"alex"})
+	 
+index.html
+<html>
+	<body>
+		<div>{{current_user}}</div>
+	</body>
+</html>
+
+===>最后生成字符串
+<html>
+	<body>
+		<div>alex</div>
+	</body>
+<html>
+```
+
+for循环
+
+```
+def func(request):
+	return render(request,"index.html",{'current_user':'alex','user_list':['alex','eric']})
+	
+index.html
+<html>
+	<body>
+		<div>{{current_user}}</div>
+		<ul>
+			{% for row in user_list %}
+				<li>{{ row }}</li>
+			{% endfor %}
+		</ul>
+	</body>
+<html>
+```
+
+索引
+
+```
+def func(request):
+	return render(request,"index.html",{
+        'current_user':'alex',
+        'user_list':['alex','eric'],
+        'user_list':{'k1':'v1','k2':'v2'}
+	})
+	
+index.html
+<html>
+	<body>
+		<div>{{current_user}}</div>
+		
+		<a> {{ user_list.1 }} </a>
+		<a> {{ user_dict.k1 }} </a>
+		<a> {{ user_dict.k2 }} </a>
+	</body>
+</html>
+```
+
+```
+def func(request):
+	return render(request,"index.html",{
+        'current_user':'alex',
+        'user_list':['alex','eric'],
+        'user_list':{'k1':'v1','k2':'v2'}
+	})
+	
+index.html
+<html>
+	<body>
+		<div>{{current_user}}</div>
+		
+		<a> {{ user_list.1 }} </a>
+		<a> {{ user_dict.k1 }} </a>
+		<a> {{ user_dict.k2 }} </a>
+		
+		{% if age %}
+        	<a>有年龄</a>
+        	{% if age > 16 %}
+        		<a>老男人</a>
+        	{% else %}
+        		<a>小鲜肉</a>
+        {% else %}
+        	<a>无年零</a>
+        {% endif %}
+	</body>
+</html>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
