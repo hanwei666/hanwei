@@ -68,3 +68,12 @@ http://blog.csdn.net/saga_gallon/article/details/76686838
 https://baijiahao.baidu.com/s?id=1581018090928650336&wfr=spider&for=pc
 ```
 
+####centos7 搭建itop
+```
+1.http://www.mamicode.com/info-detail-1660770.html
+2.升级php
+https://www.cnblogs.com/fogwang/p/7895296.html
+3.web
+https://linux.cn/article-6186-weibo.html
+```
+
