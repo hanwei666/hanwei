@@ -68,7 +68,7 @@ http://blog.csdn.net/saga_gallon/article/details/76686838
 https://baijiahao.baidu.com/s?id=1581018090928650336&wfr=spider&for=pc
 ```
 
-####centos7 搭建itop
+#### centos7 搭建itop
 ```
 1.http://www.mamicode.com/info-detail-1660770.html
 2.升级php
