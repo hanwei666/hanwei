@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .hide{
+            display: none;
+        }
+    </style>
 </head>
 <body style="margin: 0">
     <div style="height: 48px;background-color: #dddddd"></div>
@@ -25,9 +30,34 @@
                     <td>{{ row.group }}</td>
                     <td>{{ row.gender }}</td>
                     <td>{{ row.email }}</td>
+                       <td><a href="/detail?nid={{ row.id }}">查看详细</a> |
+                        <a class="del" href="#" row-id="{{ row.id }}">删除</a> </td>
                 </tr>
             {% endfor %}
         </table>
     </div>
+
+    <div class="hide"  id="i1">
+        <form action="/del_host" method="post">
+            <input id="nid" type="text" name="nid"/>
+            <p>
+                <input type="submit" value="确认" />
+                <input id="niid" type="button" value="取消"/>
+            </p>
+        </form>
+    </div>
+<script src="/static/jquery.js"></script>
+<script>
+    $('.del').click(function(){
+        var row_id = $(this).attr('row-id');
+        $('#nid').val(row_id);
+        $("div").removeClass("hide");
+    });
+
+    $(":button").click(function() {
+        $('input').addClass('hide');
+
+    })
+</script>
 </body>
 </html>

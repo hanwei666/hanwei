@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'login',views.login),
     url(r'excel',views.excel),
+    url(r'del_host',views.del_host),
 ]

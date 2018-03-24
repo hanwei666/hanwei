@@ -21,6 +21,11 @@ def Create_Pwd(pwd):
     return hashlib.md5(pwd.encode("utf8")).hexdigest()
 
 def login(request):
+    '''
+    验证登录
+    :param request:
+    :return:
+    '''
     error_msg = ""
     if request.method == "POST":
         user = request.POST.get('user',None)
@@ -34,6 +39,11 @@ def login(request):
 
 
 def excel(request):
+    '''
+    处理表格
+    :param request:
+    :return:
+    '''
     if request.method == "POST":
         i = request.POST.get('')
         u = request.POST.get('username')
@@ -42,6 +52,17 @@ def excel(request):
         g = request.POST.get('gender')
         temp = {'id': i,'username': u,'email':e,'gender': g,'group': z }
         data.USER_LIST.append(temp)
+        #添加数据
         data.add_info(i,u,z,e,g)
     return render(request,'excel.html',{'user_list': data.USER_LIST})
 
+
+def del_host(request):
+    '''
+    删除
+    :param request:
+    :return:
+    '''
+    nid = request.POST.get('nid')
+    data.del_host(nid)
+    return redirect('http://127.0.0.1:8000/excel')
