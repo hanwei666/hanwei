@@ -6,6 +6,7 @@ import sys,os
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(path)
 
+
 from sqlalchemy import Column,String,create_engine,Integer,ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker,relationship
@@ -60,10 +61,22 @@ class DB_Control(object):
             def __rep__(self):
                 return '<User>name=%s,id=%s'%(self.name,self.id)
 
+        class Info(Base):
+            __tablename__ = 'info'
+            id = Column(Integer, nullable=False,primary_key=True,autoincrement=True)
+            username = Column(String(32),nullable=False)
+            group = Column(String(32),nullable=False)
+            email = Column(String(32),nullable=False)
+            gender = Column(String(32),nullable=False)
+
+            def __rep__(self):
+                return '<Info>username=%s,group=%s,email=%s,gender=%s' % (self.username, self.group,self.email,self.gender)
+
         Base.metadata.create_all(self.Engine)
         # 返回表结构对象字典
         table_dict = {
             'user' : User,
+            'info' : Info
         }
 
         return table_dict
@@ -83,4 +96,4 @@ class DB_Control(object):
 
 if __name__ == '__main__':
     db = DB_Control()
-    print(db.Tables)
+

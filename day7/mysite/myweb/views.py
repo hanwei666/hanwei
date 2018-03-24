@@ -6,7 +6,7 @@ from django.shortcuts import HttpResponse
 from django.shortcuts import render
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(path)
-from db import web_db
+from db import web_db,data
 from django.shortcuts import redirect
 
 
@@ -27,8 +27,21 @@ def login(request):
         pwd = request.POST.get('pwd',None)
         password = Create_Pwd(pwd)
         if passwd == password and use == user:
-            return redirect('http://www.baidu.com')
+            return redirect('http://127.0.0.1:8000/excel')
         else:
             error_msg = "用户名或密码错误"
     return render(request,'login.html',{'error_msg': error_msg})
+
+
+def excel(request):
+    if request.method == "POST":
+        i = request.POST.get('')
+        u = request.POST.get('username')
+        z = request.POST.get('group')
+        e = request.POST.get('email')
+        g = request.POST.get('gender')
+        temp = {'id': i,'username': u,'email':e,'gender': g,'group': z }
+        data.USER_LIST.append(temp)
+        data.add_info(i,u,z,e,g)
+    return render(request,'excel.html',{'user_list': data.USER_LIST})
 
