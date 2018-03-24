@@ -21,6 +21,7 @@ def info_table():
         USER_LIST.append(temp)
 
 
+
     return
 
 def add_info(i,u,z,e,g):
