@@ -46,6 +46,9 @@ http://blog.51cto.com/zht880301/1662812
 
 ```
 https://www.cnblogs.com/GreedyL/p/7519969.html
+
+开放vrrp协议
+https://blog.csdn.net/u010943765/article/details/59574764
 ```
 
 #### 使用ssh-copy-id批量拷贝公钥到远程主机
