@@ -77,3 +77,11 @@ https://www.cnblogs.com/fogwang/p/7895296.html
 https://linux.cn/article-6186-weibo.html
 ```
 
+#### centos7 编译安装nginx & lnmp
+
+```
+https://www.linuxidc.com/Linux/2016-03/129303.htm
+http://blog.51cto.com/oudonghang/1919172
+https://www.cnblogs.com/jxkshu/p/8376273.html
+```
+
